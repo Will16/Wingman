@@ -45,9 +45,8 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         
         
-        var nav = self.navigationController?.navigationBar
-        
-        customButton = UIButton(type: UIButtonType.Custom) as? UIButton
+   
+        customButton = UIButton(type: UIButtonType.Custom)
         customButton!.setBackgroundImage(UIImage(named: "backbutton"), forState: UIControlState.Normal)
         
 
@@ -109,29 +108,29 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
         self.logoImageView.clipsToBounds = true
         
         // animate the logoImageView
-        var scale1 = CGAffineTransformMakeScale(0.5, 0.5)
-        var translate1 = CGAffineTransformMakeTranslation(0, -100)
+        let scale1 = CGAffineTransformMakeScale(0.5, 0.5)
+        let translate1 = CGAffineTransformMakeTranslation(0, -100)
         self.createUsernameField.transform = CGAffineTransformConcat(scale1, translate1)
         
         spring(1) {
      
             self.createUsernameField.hidden = false
-            var scale = CGAffineTransformMakeScale(1, 1)
-            var translate = CGAffineTransformMakeTranslation(0, 0)
+            let scale = CGAffineTransformMakeScale(1, 1)
+            let translate = CGAffineTransformMakeTranslation(0, 0)
             self.createUsernameField.transform = CGAffineTransformConcat(scale, translate)
         }
         
         // animate the textViews
         
         
-        var scale2 = CGAffineTransformMakeScale(0.5, 0.5)
-        var translate2 = CGAffineTransformMakeTranslation(0, -100)
+        let scale2 = CGAffineTransformMakeScale(0.5, 0.5)
+        let translate2 = CGAffineTransformMakeTranslation(0, -100)
         self.enterEmailField.transform = CGAffineTransformConcat(scale2, translate2)
         
         spring(1) {
             self.enterEmailField.hidden = false
-            var scale = CGAffineTransformMakeScale(1, 1)
-            var translate = CGAffineTransformMakeTranslation(0, 0)
+            let scale = CGAffineTransformMakeScale(1, 1)
+            let translate = CGAffineTransformMakeTranslation(0, 0)
             self.enterEmailField.transform = CGAffineTransformConcat(scale, translate)
        
             
@@ -143,22 +142,22 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
         
         spring(1) {
             self.createPasswordField.hidden = false
-            var scale = CGAffineTransformMakeScale(1, 1)
-            var translate = CGAffineTransformMakeTranslation(0, 0)
+            let scale = CGAffineTransformMakeScale(1, 1)
+            let translate = CGAffineTransformMakeTranslation(0, 0)
             self.createPasswordField.transform = CGAffineTransformConcat(scale, translate)
        
             
         }
 
         
-        var scale4 = CGAffineTransformMakeScale(0.5, 0.5)
+        let scale4 = CGAffineTransformMakeScale(0.5, 0.5)
         var translate4 = CGAffineTransformMakeTranslation(0, 200)
         self.pickedImage.transform = CGAffineTransformConcat(scale4, translate4)
         
         spring(1) {
             self.pickedImage.hidden = false
-            var scale = CGAffineTransformMakeScale(1, 1)
-            var translate = CGAffineTransformMakeTranslation(0, 0)
+            let scale = CGAffineTransformMakeScale(1, 1)
+            let translate = CGAffineTransformMakeTranslation(0, 0)
             self.pickedImage.transform = CGAffineTransformConcat(scale, translate)
             
             
@@ -174,10 +173,10 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
         }
 
         
-        if let token = User.currentUser().token  {
+        if let _ = User.currentUser().token  {
             
             
-            var tbc = storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
+            let tbc = storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
             
             
             tbc?.tabBar.tintColor = UIColor.whiteColor()
