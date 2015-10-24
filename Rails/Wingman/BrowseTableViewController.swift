@@ -111,8 +111,8 @@ class BrowseTableViewController: UITableViewController,  didGetEventsProtocol {
         //sets navigation bar's "Back" button item to white
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
-        var backButton = UIBarButtonItem()
-        var backButtonImage = UIImage(named: "backbutton")
+        let backButton = UIBarButtonItem()
+        let backButtonImage = UIImage(named: "backbutton")
         backButton.setBackButtonBackgroundImage(backButtonImage, forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
         
         self.navigationController?.navigationItem.backBarButtonItem = backButton
@@ -138,7 +138,7 @@ class BrowseTableViewController: UITableViewController,  didGetEventsProtocol {
         self.navigationController?.navigationItem.backBarButtonItem = backButton
         
         tabBarImageView!.hidden = false
-        springScaleFrom(tabBarImageView!, 0, -100, 0.5, 0.5)
+        springScaleFrom(tabBarImageView!, x: 0, y: -100, scaleX: 0.5, scaleY: 0.5)
         
             // addBlurEffect()
         
@@ -148,10 +148,10 @@ class BrowseTableViewController: UITableViewController,  didGetEventsProtocol {
     
     func addBlurEffect() {
         // Add blur view
-        var bounds = self.navigationController?.navigationBar.bounds as CGRect!
-        var visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark)) as UIVisualEffectView
+        let bounds = self.navigationController?.navigationBar.bounds as CGRect!
+        let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark)) as UIVisualEffectView
         visualEffectView.frame = bounds
-        visualEffectView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        visualEffectView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         self.navigationController?.navigationBar.addSubview(visualEffectView)    // Here you can add visual effects to any UIView control.
         // Replace custom view with navigation bar in above code to add effects to custom view.
     }
@@ -211,13 +211,16 @@ class BrowseTableViewController: UITableViewController,  didGetEventsProtocol {
         }
         
         
-        // IF THERE IS NO IMAGE IN OUR DIRECTORY (WE DIDN'T ALREADY DOWNLOADED IT, SO METHOD DOESN'T END AT COMPLETION ABOVE), THEN DOWNLOAD IMAGEFILE FROM S3 LINK (THAT WE STORED EARLIER IN REGISTERVIEWCONTROLLER)
+        do {
+            // IF THERE IS NO IMAGE IN OUR DIRECTORY (WE DIDN'T ALREADY DOWNLOADED IT, SO METHOD DOESN'T END AT COMPLETION ABOVE), THEN DOWNLOAD IMAGEFILE FROM S3 LINK (THAT WE STORED EARLIER IN REGISTERVIEWCONTROLLER)
         
-        // AT EVERY STEP OF THE DOWNLOAD OF THE IMAGEFILE, OUTPUT STREAM CHANGES AND THEN WE UPDATE THE IMAGEFILE AT DIRECTORY (BY DELETING THE OLD ONE AND ADDING THE UPDATED ONE)
+            // AT EVERY STEP OF THE DOWNLOAD OF THE IMAGEFILE, OUTPUT STREAM CHANGES AND THEN WE UPDATE THE IMAGEFILE AT DIRECTORY (BY DELETING THE OLD ONE AND ADDING THE UPDATED ONE)
   
-        
-        // remove old imageFile
-        NSFileManager.defaultManager().removeItemAtPath(filePath, error: nil)
+            
+            // remove old imageFile
+            try NSFileManager.defaultManager().removeItemAtPath(filePath)
+        } catch _ {
+        }
         
         // update the file at the filePath directory
         // OutputStream is the data we receive from the request (the downloading of the image from the imageFile)
@@ -233,7 +236,7 @@ class BrowseTableViewController: UITableViewController,  didGetEventsProtocol {
             // if the image is succesfully downloaded from the imageFile stored in S3 then completion
             success: { (responseObject) -> Void in
                 
-                println("image saved")
+                print("image saved")
                 
                 if let c = completion { c() }
                 
@@ -317,7 +320,7 @@ class BrowseTableViewController: UITableViewController,  didGetEventsProtocol {
                     
                     // grab the directory where we stored our imageName (the directory has our fileName (the image name with the random number) at the end of it)
                     var paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-                    var filePath = paths[0].stringByAppendingPathComponent(fileName)
+                    let filePath = paths[0] + fileName
                     
                     
                     // SEE THE GETIMAGEWITHFILEPATH METHOD IN THIS CLASS
@@ -361,7 +364,7 @@ class BrowseTableViewController: UITableViewController,  didGetEventsProtocol {
     }
     
     func didNotGetAllEvents(error: String?) {
-        var alert:UIAlertView = UIAlertView(title: "Get Events Unsuccessful", message: error, delegate: nil, cancelButtonTitle: "Ok")
+        let alert:UIAlertView = UIAlertView(title: "Get Events Unsuccessful", message: error, delegate: nil, cancelButtonTitle: "Ok")
         
         alert.show()
     }

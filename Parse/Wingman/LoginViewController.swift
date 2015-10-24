@@ -76,14 +76,12 @@ class LoginViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         
         
-        var nav = self.navigationController?.navigationBar
-        
-   
+    
         self.logoImageView.layer.cornerRadius = 50
          self.logoImageView.clipsToBounds = true
        
         self.imageView!.hidden = false
-        springScaleFrom(self.imageView!, 0, -100, 0.5, 0.5)
+        springScaleFrom(self.imageView!, x: 0, y: -100, scaleX: 0.5, scaleY: 0.5)
         
         
         
@@ -94,39 +92,39 @@ class LoginViewController: UIViewController {
         
         
         // animate the logoImageView
-        var scale1 = CGAffineTransformMakeScale(0.5, 0.5)
-        var translate1 = CGAffineTransformMakeTranslation(0, 500)
+        let scale1 = CGAffineTransformMakeScale(0.5, 0.5)
+        let translate1 = CGAffineTransformMakeTranslation(0, 500)
         self.logoImageView.transform = CGAffineTransformConcat(scale1, translate1)
         
         animationWithDuration(4) {
              self.logoImageView.hidden = false
-            var scale = CGAffineTransformMakeScale(1, 1)
-            var translate = CGAffineTransformMakeTranslation(0, 0)
+            let scale = CGAffineTransformMakeScale(1, 1)
+            let translate = CGAffineTransformMakeTranslation(0, 0)
             self.logoImageView.transform = CGAffineTransformConcat(scale, translate)
         }
 
          // animate the textViews
         
         
-        var scale2 = CGAffineTransformMakeScale(0.5, 0.5)
-        var translate2 = CGAffineTransformMakeTranslation(-300, 0)
+        let scale2 = CGAffineTransformMakeScale(0.5, 0.5)
+        let translate2 = CGAffineTransformMakeTranslation(-300, 0)
         self.loginButton.transform = CGAffineTransformConcat(scale2, translate2)
         
         spring(1) {
-            var scale = CGAffineTransformMakeScale(1, 1)
-            var translate = CGAffineTransformMakeTranslation(0, 0)
+            let scale = CGAffineTransformMakeScale(1, 1)
+            let translate = CGAffineTransformMakeTranslation(0, 0)
             self.loginButton.transform = CGAffineTransformConcat(scale, translate)
             self.loginButton.hidden = false
 
         }
         
-        var scale3 = CGAffineTransformMakeScale(0.5, 0.5)
-        var translate3 = CGAffineTransformMakeTranslation(300, 0)
+        let scale3 = CGAffineTransformMakeScale(0.5, 0.5)
+        let translate3 = CGAffineTransformMakeTranslation(300, 0)
         self.signInButton.transform = CGAffineTransformConcat(scale3, translate3)
         
         spring(1) {
-            var scale = CGAffineTransformMakeScale(1, 1)
-            var translate = CGAffineTransformMakeTranslation(0, 0)
+            let scale = CGAffineTransformMakeScale(1, 1)
+            let translate = CGAffineTransformMakeTranslation(0, 0)
             self.signInButton.transform = CGAffineTransformConcat(scale, translate)
             self.signInButton.hidden = false
 
@@ -137,14 +135,14 @@ class LoginViewController: UIViewController {
 
         if PFUser.currentUser() != nil {
             
-            var tbc = storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
+            let tbc = storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
             
             tbc?.tabBar.tintColor = UIColor.whiteColor()
 
             
             tbc?.tabBar.barStyle = UIBarStyle.Black
             
-            println(tbc)
+            print(tbc)
             
             UIApplication.sharedApplication().keyWindow?.rootViewController = tbc
         }
@@ -172,14 +170,14 @@ class LoginViewController: UIViewController {
         self.usernameField.resignFirstResponder()
         self.passwordField.resignFirstResponder()
         
-        var fieldValues: [String] = [usernameField.text, passwordField.text]
+        let fieldValues: [String] = [usernameField.text!, passwordField.text!]
         
-        if find(fieldValues, "") != nil {
+        if fieldValues.indexOf("") != nil {
             
             //all fields are not filled in
-            var alertViewController = UIAlertController(title: "Submission Error", message: "Please complete all fields", preferredStyle: UIAlertControllerStyle.Alert)
+            let alertViewController = UIAlertController(title: "Submission Error", message: "Please complete all fields", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             
             alertViewController.addAction(defaultAction)
             
@@ -200,10 +198,10 @@ class LoginViewController: UIViewController {
                     
                     
                     //all fields are filled in
-                    println("All fields are filled in and login complete")
+                    print("All fields are filled in and login complete")
                     
                     
-                    var userQuery = PFUser.query()
+                    let userQuery = PFUser.query()
                     userQuery.whereKey("username", equalTo: self.usernameField.text)
                     
                     userQuery.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
@@ -220,15 +218,15 @@ class LoginViewController: UIViewController {
                     })
                     
                 } else {
-                    if let errorString = error.userInfo?["error"] as? NSString
+                    if let errorString = error.userInfo["error"] as? NSString
                     {
-                        var alert:UIAlertView = UIAlertView(title: "Error", message: errorString as String, delegate: nil, cancelButtonTitle: "Ok")
+                        let alert:UIAlertView = UIAlertView(title: "Error", message: errorString as String, delegate: nil, cancelButtonTitle: "Ok")
                         
                         alert.show()
                     }
                         
                     else {
-                        var alert:UIAlertView = UIAlertView(title: "Error", message: "Unable to login" , delegate: nil, cancelButtonTitle: "Ok")
+                        let alert:UIAlertView = UIAlertView(title: "Error", message: "Unable to login" , delegate: nil, cancelButtonTitle: "Ok")
                         
                         alert.show()
                         
@@ -264,7 +262,7 @@ class LoginViewController: UIViewController {
 
     func checkIfLoggedIn(){
         
-        println(isLoggedIn)
+        print(isLoggedIn)
         
         if isLoggedIn {
             
@@ -274,14 +272,14 @@ class LoginViewController: UIViewController {
             
             
             
-            var tbc = storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
+            let tbc = storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
             
             tbc?.tabBar.tintColor = UIColor.whiteColor()
             
             
             tbc?.tabBar.barStyle = UIBarStyle.Black
             
-            println(tbc)
+            print(tbc)
             
             UIApplication.sharedApplication().keyWindow?.rootViewController = tbc
         }
@@ -291,7 +289,7 @@ class LoginViewController: UIViewController {
 
   
   
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
     view.endEditing(true)
     super.touchesBegan(touches, withEvent: event)
     }

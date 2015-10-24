@@ -16,7 +16,7 @@ let s3URL = "https://s3.amazonaws.com/BUCKET/"
 private let _S3Model = S3()
 
 // create a directory where we can store the images
-let documentsDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
+let documentsDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] 
 
 class S3 {
     

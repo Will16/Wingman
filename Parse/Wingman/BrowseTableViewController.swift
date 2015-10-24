@@ -101,8 +101,8 @@ class BrowseTableViewController: UITableViewController {
         //sets navigation bar's "Back" button item to white
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
-        var backButton = UIBarButtonItem()
-        var backButtonImage = UIImage(named: "backbutton")
+        let backButton = UIBarButtonItem()
+        let backButtonImage = UIImage(named: "backbutton")
         backButton.setBackButtonBackgroundImage(backButtonImage, forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
         
         self.navigationController?.navigationItem.backBarButtonItem = backButton
@@ -121,14 +121,14 @@ class BrowseTableViewController: UITableViewController {
         //sets navigation bar's "Back" button item to white
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
-        var backButton = UIBarButtonItem()
-        var backButtonImage = UIImage(named: "backbutton")
+        let backButton = UIBarButtonItem()
+        let backButtonImage = UIImage(named: "backbutton")
         backButton.setBackButtonBackgroundImage(backButtonImage, forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
      
         self.navigationController?.navigationItem.backBarButtonItem = backButton
         
         tabBarImageView!.hidden = false
-        springScaleFrom(tabBarImageView!, 0, -100, 0.5, 0.5)
+        springScaleFrom(tabBarImageView!, x: 0, y: -100, scaleX: 0.5, scaleY: 0.5)
         
             // addBlurEffect()
         
@@ -138,16 +138,16 @@ class BrowseTableViewController: UITableViewController {
     
     func addBlurEffect() {
         // Add blur view
-        var bounds = self.navigationController?.navigationBar.bounds as CGRect!
-        var visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark)) as UIVisualEffectView
+        let bounds = self.navigationController?.navigationBar.bounds as CGRect!
+        let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark)) as UIVisualEffectView
         visualEffectView.frame = bounds
-        visualEffectView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        visualEffectView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         self.navigationController?.navigationBar.addSubview(visualEffectView)    // Here you can add visual effects to any UIView control.
         // Replace custom view with navigation bar in above code to add effects to custom view.
     }
     
     func loadCurrentUserAndThenLoadUsers() {
-        var query = PFUser.query()
+        let query = PFUser.query()
         query.whereKey("objectId", equalTo: PFUser.currentUser().objectId)
         
         query.findObjectsInBackgroundWithBlock() {
@@ -186,7 +186,7 @@ class BrowseTableViewController: UITableViewController {
     func loadUsers(seekingGender: String?, ourGender: String?) {
         
 //        var query = PFQuery(className:"_User")
-         var query = PFUser.query()
+         let query = PFUser.query()
         
          query.whereKeyExists("postData")
     
@@ -276,16 +276,7 @@ class BrowseTableViewController: UITableViewController {
         cell.contentView.backgroundColor = UIColor.clearColor()
         cell.backgroundColor = UIColor.clearColor()
 
-        
-//        
-//        springScaleFrom(cell.genderLabel, 200, 200, 0.5, 0.5)
-//        
-//        springScaleFrom(cell.usernameLabel, 200, 200, 0.5, 0.5)
-//        springScaleFrom(cell.clubOrBarLabel, 200, 200, 0.5, 0.5)
-//        springScaleFrom(cell.timeLabel, 200, 200, 0.5, 0.5)
-//        
-//        springScaleFrom(cell.userImage, -100, 200, 0.5, 0.5)
-        
+
         var registerInfo = self.arrayOfRegisterInfo[indexPath.row]
         
         
@@ -293,20 +284,23 @@ class BrowseTableViewController: UITableViewController {
             imageFile.getDataInBackgroundWithBlock({
                 (imageData: NSData!, error: NSError!) in
                 if (error == nil) {
+                    
+                    print("HELLO")
                     let image : UIImage = UIImage(data:imageData)!
                     //image object implementation
                     
                     cell.userImage.image = image
                 }
+                
+              
+                else {
+                    print(error.description)
+                }
             })
 
         }
         
-        
-//        if let interest = registerInfo["interests"] as? String {
-//            cell.interestsLabel.text = interest
-//        }
-        
+      
         if let username = registerInfo["username"] as? String {
             cell.usernameLabel.text = username
         }
@@ -359,7 +353,7 @@ class BrowseTableViewController: UITableViewController {
         let vc = storyboard.instantiateViewControllerWithIdentifier("browseDetailVC") as! BrowseDetailViewController
         
         //self for global variables/properties
-        var registerInfo = self.arrayOfRegisterInfo[indexPath.row]
+        let registerInfo = self.arrayOfRegisterInfo[indexPath.row]
         var postData = self.arrayOfPostData[indexPath.row]
         
         //sending data to BrowseDetailViewController

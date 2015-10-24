@@ -81,7 +81,7 @@ class BrowseDetailViewController: UIViewController, CLLocationManagerDelegate, M
         
         startUpdatingLocation()
         
-        customButton = UIButton.buttonWithType(UIButtonType.Custom) as? UIButton
+        customButton = UIButton(type: UIButtonType.Custom)
         customButton!.setBackgroundImage(UIImage(named: "backbutton"), forState: UIControlState.Normal)
         
         
@@ -120,22 +120,22 @@ class BrowseDetailViewController: UIViewController, CLLocationManagerDelegate, M
         
       //  self.navigationController?.navigationItem.backBarButtonItem =
         
-         println(self.phoneNumber)
+         print(self.phoneNumber, terminator: "")
         
         startUpdatingLocation()
         
         customButton!.hidden = false
-        springScaleFrom(customButton!, -100, 0, 0.5, 0.5)
+        springScaleFrom(customButton!, x: -100, y: 0, scaleX: 0.5, scaleY: 0.5)
 
         
          imageView!.hidden = false
-        springScaleFrom(imageView!, 200, 0, 0.5, 0.5)
+        springScaleFrom(imageView!, x: 200, y: 0, scaleX: 0.5, scaleY: 0.5)
         
          self.userImage.hidden = false
-        springScaleFrom(userImage!, 0, -400, 0.5, 0.5)
+        springScaleFrom(userImage!, x: 0, y: -400, scaleX: 0.5, scaleY: 0.5)
         
         self.joinButton.hidden = false
-        springScaleFrom(joinButton!, 0, 200, 0.5, 0.5)
+        springScaleFrom(joinButton!, x: 0, y: 200, scaleX: 0.5, scaleY: 0.5)
         
         
     }
@@ -230,13 +230,13 @@ class BrowseDetailViewController: UIViewController, CLLocationManagerDelegate, M
     }
     
     
-    func locationManager(manager:CLLocationManager!, didUpdateLocations locations:[AnyObject]!) {
+    func locationManager(manager:CLLocationManager, didUpdateLocations locations:[CLLocation]) {
         
-        println("Springtime is here!!!")
+        print("Springtime is here!!!", terminator: "")
         let location = getLatestMeasurementFromLocations(locations)
         
         
-        println("my location: \(location)")
+        print("my location: \(location)", terminator: "")
         if isLocationMeasurementNotCached(location) && isHorizontalAccuracyValidMeasurement(location) && isLocationMeasurementDesiredAccuracy(location) {
             
             stopUpdatingLocation()
@@ -248,15 +248,15 @@ class BrowseDetailViewController: UIViewController, CLLocationManagerDelegate, M
                     if let venueLocation = CLLocation(latitude: latitude, longitude: longitude) as CLLocation? {
                         
                         //convert meters into miles
-                        var dist1 = venueLocation.distanceFromLocation(location) * 0.00062137
+                        let dist1 = venueLocation.distanceFromLocation(location) * 0.00062137
                         
                         //rounding to nearest hundredth
-                        var dist2 = Double(round(100 * dist1) / 100)
+                        let dist2 = Double(round(100 * dist1) / 100)
                         
                         
                         self.distanceLabel.text = "Which is \(dist2) mi from you"
                         
-                        println("THE DISTANCE: \(dist2)")
+                        print("THE DISTANCE: \(dist2)", terminator: "")
                     }
                 }
                 
@@ -266,7 +266,7 @@ class BrowseDetailViewController: UIViewController, CLLocationManagerDelegate, M
     }
     
     //if error stop updating location
-    func locationManager(manager:CLLocationManager!, didFailWithError error:NSError!) {
+    func locationManager(manager:CLLocationManager, didFailWithError error:NSError) {
         if error.code != CLError.LocationUnknown.rawValue {
             stopUpdatingLocation()
         }
@@ -298,7 +298,7 @@ class BrowseDetailViewController: UIViewController, CLLocationManagerDelegate, M
         }
         
         lManager.startUpdatingLocation()
-        println("start updating location")
+        print("start updating location", terminator: "")
     }
     
     func stopUpdatingLocation() {
@@ -326,7 +326,7 @@ class BrowseDetailViewController: UIViewController, CLLocationManagerDelegate, M
     }
     
     
-    func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
+    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
         
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -334,7 +334,6 @@ class BrowseDetailViewController: UIViewController, CLLocationManagerDelegate, M
     @IBAction func logout(sender: AnyObject) {
         
         
-        let user = PFUser.currentUser() as PFUser
         
         PFUser.logOut()
         

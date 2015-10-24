@@ -82,7 +82,7 @@ class LoginViewController: UIViewController, SignedInProtocol {
          self.logoImageView.clipsToBounds = true
        
         self.imageView!.hidden = false
-        springScaleFrom(self.imageView!, 0, -100, 0.5, 0.5)
+        springScaleFrom(self.imageView!, x: 0, y: -100, scaleX: 0.5, scaleY: 0.5)
         
         
       
@@ -139,7 +139,7 @@ class LoginViewController: UIViewController, SignedInProtocol {
             
             tbc?.tabBar.barStyle = UIBarStyle.Black
             
-            println(tbc)
+            print(tbc)
             
             UIApplication.sharedApplication().keyWindow?.rootViewController = tbc
         }
@@ -169,14 +169,14 @@ class LoginViewController: UIViewController, SignedInProtocol {
         self.usernameField.resignFirstResponder()
         self.passwordField.resignFirstResponder()
         
-        var fieldValues: [String] = [usernameField.text, passwordField.text]
+        let fieldValues: [String] = [usernameField.text!, passwordField.text!]
         
-        if find(fieldValues, "") != nil {
+        if fieldValues.indexOf("") != nil {
             
             //all fields are not filled in
-            var alertViewController = UIAlertController(title: "Submission Error", message: "Please complete all fields", preferredStyle: UIAlertControllerStyle.Alert)
+            let alertViewController = UIAlertController(title: "Submission Error", message: "Please complete all fields", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             
             alertViewController.addAction(defaultAction)
             
@@ -187,7 +187,7 @@ class LoginViewController: UIViewController, SignedInProtocol {
         
         else {
             
-             User.currentUser().signIn(usernameField.text, password: passwordField.text)
+             User.currentUser().signIn(usernameField.text!, password: passwordField.text!)
         }
     }
 
@@ -212,7 +212,7 @@ class LoginViewController: UIViewController, SignedInProtocol {
 
     func checkIfLoggedIn(){
         
-        println(isLoggedIn)
+        print(isLoggedIn)
         
         if isLoggedIn {
             
@@ -222,14 +222,14 @@ class LoginViewController: UIViewController, SignedInProtocol {
             
             
             
-            var tbc = storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
+            let tbc = storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
             
             tbc?.tabBar.tintColor = UIColor.whiteColor()
             
             
             tbc?.tabBar.barStyle = UIBarStyle.Black
             
-            println(tbc)
+            print(tbc)
             
             UIApplication.sharedApplication().keyWindow?.rootViewController = tbc
         }
@@ -240,7 +240,7 @@ class LoginViewController: UIViewController, SignedInProtocol {
   
   
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
     }
@@ -254,14 +254,14 @@ class LoginViewController: UIViewController, SignedInProtocol {
     func goToApp() {
         
         
-        var tbc = self.storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
+        let tbc = self.storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
         
         tbc?.tabBar.tintColor = UIColor.whiteColor()
         
         
         tbc?.tabBar.barStyle = UIBarStyle.Black
         
-        println(tbc)
+        print(tbc)
         
         UIApplication.sharedApplication().keyWindow?.rootViewController = tbc
         
@@ -270,7 +270,7 @@ class LoginViewController: UIViewController, SignedInProtocol {
     func signInUnsuccesful(error: String) {
         
         
-        var alert:UIAlertView = UIAlertView(title: "Error", message: error, delegate: nil, cancelButtonTitle: "Ok")
+        let alert:UIAlertView = UIAlertView(title: "Error", message: error, delegate: nil, cancelButtonTitle: "Ok")
         
         alert.show()
     }

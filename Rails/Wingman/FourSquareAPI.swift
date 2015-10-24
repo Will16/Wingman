@@ -30,11 +30,11 @@ class FourSquareAPI: NSObject {
     
     func searchForClubOrBarAtLocation(userLocation: CLLocation) {
         
-        println("run method")
+        print("run method")
         
         let urlPath = "\(API_URL)venues/search?ll=\(userLocation.coordinate.latitude),\(userLocation.coordinate.longitude)&limit=100&categoryId=\(categoryId)&radius=\(radiusInMeters)&client_id=\(CLIENT_ID)&client_secret=\(CLIENT_SECRET)&v=\(version)"
         
-        println(urlPath)
+        print(urlPath)
         
         let url = NSURL(string: urlPath)
         let request = NSURLRequest(URL: url!)
@@ -43,24 +43,24 @@ class FourSquareAPI: NSObject {
         
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
             
-            println("create session")
+            print("create session")
             
-            var err: NSError?
             
-            let strData = NSString(data: data, encoding: NSUTF8StringEncoding)
             
-            if let json = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as! NSDictionary? {
-                if((err) != nil) {
-                    println(err!.localizedDescription)
+            do {
+                
+            let json = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves) as? NSDictionary
+                if((error) != nil) {
+                    print(error!.localizedDescription)
                 }
                     
                 else {
                     var venues = [ClubOrBarVenues]()
                     
-                    if json.count>0 {
-                        if let response: NSDictionary = json["response"] as? NSDictionary {
+                    if json!.count>0 {
+                        if let response: NSDictionary = json!["response"] as? NSDictionary {
                             
-                            println("\(response)")
+                            print("\(response)")
                             
                             let allVenues: [NSDictionary] = response["venues"] as! [NSDictionary]
                             
@@ -77,7 +77,7 @@ class FourSquareAPI: NSObject {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             
                             self.delegate?.didReceiveVenues(venues)
-                            println(venues)
+                            print(venues)
                             
                         })
                         
@@ -86,6 +86,9 @@ class FourSquareAPI: NSObject {
                 }
 
                 
+            }
+            catch let error as NSError {
+                print("JSON Error: \(error.localizedDescription)")
             }
             
                    })

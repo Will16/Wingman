@@ -27,13 +27,13 @@ class BrowseTableViewCell: UITableViewCell {
         // Initialization code
         
    
-        springScaleFrom(genderLabel, 200, 200, 0.5, 0.5)
+        springScaleFrom(genderLabel, x: 200, y: 200, scaleX: 0.5, scaleY: 0.5)
         
-        springScaleFrom(usernameLabel, 200, 200, 0.5, 0.5)
-        springScaleFrom(clubOrBarLabel, 200, 200, 0.5, 0.5)
-        springScaleFrom(timeLabel, 200, 200, 0.5, 0.5)
+        springScaleFrom(usernameLabel, x: 200, y: 200, scaleX: 0.5, scaleY: 0.5)
+        springScaleFrom(clubOrBarLabel, x: 200, y: 200, scaleX: 0.5, scaleY: 0.5)
+        springScaleFrom(timeLabel, x: 200, y: 200, scaleX: 0.5, scaleY: 0.5)
         
-        springScaleFrom(userImage, -100, 200, 0.5, 0.5)
+        springScaleFrom(userImage, x: -100, y: 200, scaleX: 0.5, scaleY: 0.5)
   
     }
 

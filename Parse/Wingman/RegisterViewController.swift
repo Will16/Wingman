@@ -43,9 +43,8 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         
         
-        var nav = self.navigationController?.navigationBar
-        
-        customButton = UIButton.buttonWithType(UIButtonType.Custom) as? UIButton
+       
+        customButton = UIButton(type: UIButtonType.Custom)
         customButton!.setBackgroundImage(UIImage(named: "backbutton"), forState: UIControlState.Normal)
         
 
@@ -97,67 +96,67 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
      
         customButton!.hidden = false
          self.imageView!.hidden = false
-         springScaleFrom(customButton!, -100, 0, 0.5, 0.5)
+         springScaleFrom(customButton!, x: -100, y: 0, scaleX: 0.5, scaleY: 0.5)
  
   
 
 
-        springScaleFrom(imageView!, 200, 0, 0.5, 0.5)
+        springScaleFrom(imageView!, x: 200, y: 0, scaleX: 0.5, scaleY: 0.5)
        
         self.logoImageView.layer.cornerRadius = 50
         self.logoImageView.clipsToBounds = true
         
         // animate the logoImageView
-        var scale1 = CGAffineTransformMakeScale(0.5, 0.5)
-        var translate1 = CGAffineTransformMakeTranslation(0, -100)
+        let scale1 = CGAffineTransformMakeScale(0.5, 0.5)
+        let translate1 = CGAffineTransformMakeTranslation(0, -100)
         self.createUsernameField.transform = CGAffineTransformConcat(scale1, translate1)
         
         spring(1) {
      
             self.createUsernameField.hidden = false
-            var scale = CGAffineTransformMakeScale(1, 1)
-            var translate = CGAffineTransformMakeTranslation(0, 0)
+            let scale = CGAffineTransformMakeScale(1, 1)
+            let translate = CGAffineTransformMakeTranslation(0, 0)
             self.createUsernameField.transform = CGAffineTransformConcat(scale, translate)
         }
         
         // animate the textViews
         
         
-        var scale2 = CGAffineTransformMakeScale(0.5, 0.5)
-        var translate2 = CGAffineTransformMakeTranslation(0, -100)
+        let scale2 = CGAffineTransformMakeScale(0.5, 0.5)
+        let translate2 = CGAffineTransformMakeTranslation(0, -100)
         self.enterEmailField.transform = CGAffineTransformConcat(scale2, translate2)
         
         spring(1) {
             self.enterEmailField.hidden = false
-            var scale = CGAffineTransformMakeScale(1, 1)
-            var translate = CGAffineTransformMakeTranslation(0, 0)
+            let scale = CGAffineTransformMakeScale(1, 1)
+            let translate = CGAffineTransformMakeTranslation(0, 0)
             self.enterEmailField.transform = CGAffineTransformConcat(scale, translate)
        
             
         }
         
-        var scale3 = CGAffineTransformMakeScale(0.5, 0.5)
-        var translate3 = CGAffineTransformMakeTranslation(0, -100)
+        let scale3 = CGAffineTransformMakeScale(0.5, 0.5)
+        let translate3 = CGAffineTransformMakeTranslation(0, -100)
         self.createPasswordField.transform = CGAffineTransformConcat(scale3, translate3)
         
         spring(1) {
             self.createPasswordField.hidden = false
-            var scale = CGAffineTransformMakeScale(1, 1)
-            var translate = CGAffineTransformMakeTranslation(0, 0)
+            let scale = CGAffineTransformMakeScale(1, 1)
+            let translate = CGAffineTransformMakeTranslation(0, 0)
             self.createPasswordField.transform = CGAffineTransformConcat(scale, translate)
        
             
         }
 
         
-        var scale4 = CGAffineTransformMakeScale(0.5, 0.5)
-        var translate4 = CGAffineTransformMakeTranslation(0, 200)
+        let scale4 = CGAffineTransformMakeScale(0.5, 0.5)
+        let translate4 = CGAffineTransformMakeTranslation(0, 200)
         self.pickedImage.transform = CGAffineTransformConcat(scale4, translate4)
         
         spring(1) {
             self.pickedImage.hidden = false
-            var scale = CGAffineTransformMakeScale(1, 1)
-            var translate = CGAffineTransformMakeTranslation(0, 0)
+            let scale = CGAffineTransformMakeScale(1, 1)
+            let translate = CGAffineTransformMakeTranslation(0, 0)
             self.pickedImage.transform = CGAffineTransformConcat(scale, translate)
             
             
@@ -176,7 +175,7 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
         if PFUser.currentUser() != nil {
             
             
-            var tbc = storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
+            let tbc = storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
             
             
             tbc?.tabBar.tintColor = UIColor.whiteColor()
@@ -184,7 +183,7 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
             
             tbc?.tabBar.barStyle = UIBarStyle.Black
             
-            println(tbc)
+            print(tbc)
             
             UIApplication.sharedApplication().keyWindow?.rootViewController = tbc
             
@@ -202,7 +201,7 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
          self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
 
@@ -231,7 +230,7 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
         
         
         
-        var image = UIImagePickerController()
+        let image = UIImagePickerController()
         image.delegate = self
         image.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
         image.allowsEditing = false
@@ -243,17 +242,17 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
     
     @IBOutlet weak var pickedImage: UIImageView!
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         self.dismissViewControllerAnimated(true, completion: nil)
         
-        var image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         
         //profileImage = scaleImage(profileImage, newSize: CGSizeMake(600, 600))
         
         
         pickedImage.image = image
         
-        var resizedImage = self.resizeImage(image, toSize: CGSizeMake(100, 100))
+        let resizedImage = self.resizeImage(image, toSize: CGSizeMake(100, 100))
         
         
         
@@ -345,18 +344,18 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
     @IBAction func genderSC(sender: UISegmentedControl) {
         
         
-        var selectedSegment = sender.selectedSegmentIndex
+        let selectedSegment = sender.selectedSegmentIndex
         if selectedSegment == 0 {
             
             registerInfo["gender"] = "male"
-            println("isOff")
+            print("isOff")
         
         }
         
         if selectedSegment == 1 {
             
             registerInfo["gender"] = "female"
-            println("isOn")
+            print("isOn")
             
         }
         
@@ -404,14 +403,14 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
         // other fields can be set just like with PFObject
         //user["phone"] = "415-392-0202"
         
-        var fieldValues: [String] = [createUsernameField.text, createPasswordField.text, enterEmailField.text, interestField.text] //interestField.text
+        let fieldValues = [createUsernameField.text, createPasswordField.text, enterEmailField.text, interestField.text] //interestField.text
         
-        if find(fieldValues, "") != nil || self.registerInfo["imageFile"] == nil {
+        if (fieldValues as! [String]).indexOf("") != nil || self.registerInfo["imageFile"] == nil {
             
             //all fields are not filled in
-            var alertViewController = UIAlertController(title: "Submission Error", message: "Please complete all fields", preferredStyle: UIAlertControllerStyle.Alert)
+            let alertViewController = UIAlertController(title: "Submission Error", message: "Please complete all fields", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             
             alertViewController.addAction(defaultAction)
             
@@ -451,15 +450,15 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
                 {
                     
                     
-                    if let errorString = error.userInfo?["error"] as? NSString
+                    if let errorString = error.userInfo["error"] as? NSString
                     {
-                        var alert:UIAlertView = UIAlertView(title: "Error", message: errorString as String, delegate: nil, cancelButtonTitle: "Ok")
+                        let alert:UIAlertView = UIAlertView(title: "Error", message: errorString as String, delegate: nil, cancelButtonTitle: "Ok")
                         
                         alert.show()
                     }
                         
                     else {
-                        var alert:UIAlertView = UIAlertView(title: "Error", message: "Unable to create account" , delegate: nil, cancelButtonTitle: "Ok")
+                        let alert:UIAlertView = UIAlertView(title: "Error", message: "Unable to create account" , delegate: nil, cancelButtonTitle: "Ok")
                         
                         alert.show()
                         
@@ -476,7 +475,7 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
     func saveInfoToParse() {
         
         
-        var query = PFQuery(className:"_User")
+        let query = PFQuery(className:"_User")
         
         query.whereKey("objectId", equalTo: PFUser.currentUser().objectId)
         
@@ -494,21 +493,21 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
                 //this creates the registerInfo column in Parse
                 user["registerInfo"] = self.registerInfo
                 
-                var gender = self.registerInfo["gender"] as! String?
+                let gender = self.registerInfo["gender"] as! String?
                 user["gender"] = gender
                 
                 user["postData"] = ["name": "JOHN", "AGE": "12"]
                 user.saveInBackground()
                 
                 
-                var tbc = self.storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
+                let tbc = self.storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
                 
                 tbc?.tabBar.tintColor = UIColor.whiteColor()
                 
                 
                 tbc?.tabBar.barStyle = UIBarStyle.Black
                 
-                println(tbc)
+                print(tbc)
                 
                 UIApplication.sharedApplication().keyWindow?.rootViewController = tbc
                 

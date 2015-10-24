@@ -113,7 +113,7 @@ class PostViewController: UIViewController, didChooseVenueProtocol, didPostEvent
         self.chooseBarButton.transform = CGAffineTransformConcat(scale1, translate1)
         
         tabBarImageView!.hidden = false
-        springScaleFrom(tabBarImageView!, 0, -100, 0.5, 0.5)
+        springScaleFrom(tabBarImageView!, x: 0, y: -100, scaleX: 0.5, scaleY: 0.5)
         
       
         
@@ -164,9 +164,9 @@ class PostViewController: UIViewController, didChooseVenueProtocol, didPostEvent
             
             
             
-            postData["startTime"] = startTime.text.toInt()
+            postData["startTime"] = Int(startTime.text!)
             
-            postData["endTime"] = endTime.text.toInt()
+            postData["endTime"] = Int(endTime.text!)
             
             postData["phonenumber"] = phoneNumber.text
             
@@ -180,7 +180,7 @@ class PostViewController: UIViewController, didChooseVenueProtocol, didPostEvent
             var latitude = Float(latitudeDegrees)
             var longitude = Float(longitudeDegrees)
             var wingmanGender = postData["wingmanGender"] as! String
-            User.currentUser().postEvent(venueName, latitude: latitude, longitude: longitude, startTime: startTime.text,  endTime: endTime.text, wingmanGender: wingmanGender)
+            User.currentUser().postEvent(venueName, latitude: latitude, longitude: longitude, startTime: startTime.text!,  endTime: endTime.text!, wingmanGender: wingmanGender)
             
             
             
@@ -241,9 +241,9 @@ class PostViewController: UIViewController, didChooseVenueProtocol, didPostEvent
     
     func goToBrowseTableVC() {
         
-        var tbc = storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
+        let tbc = storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
         
-        println(tbc)
+        print(tbc)
         
         UIApplication.sharedApplication().keyWindow?.rootViewController = tbc
 //
@@ -260,7 +260,7 @@ class PostViewController: UIViewController, didChooseVenueProtocol, didPostEvent
     
     
     //dismiss the keyboard when tapping anywhere on view
-        override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
     }
@@ -269,20 +269,20 @@ class PostViewController: UIViewController, didChooseVenueProtocol, didPostEvent
     //function letting us know which gender user chose and sending dictionary to Parse
     func switchIsChanged(sender: UISwitch){
         
-        println("Sender is = \(sender)")
+        print("Sender is = \(sender)")
         
         if genderSwitch.on{
             
             postData["wingmanGender"] = "male"
             
-            println("The switch is turned to male")
+            print("The switch is turned to male")
             
             
         } else {
             
             postData["wingmanGender"] = "female"
             
-            println("The switch is turned to female")
+            print("The switch is turned to female")
         }
         
     }
@@ -351,7 +351,7 @@ class PostViewController: UIViewController, didChooseVenueProtocol, didPostEvent
         
         postData["clubOrBar"] = venue
         
-        var venueName = venue.name
+        let venueName = venue.name
         
         
         venueChoiceLabel.text = "You chose:\n\(venueName)"
@@ -372,7 +372,7 @@ class PostViewController: UIViewController, didChooseVenueProtocol, didPostEvent
     }
     
     func didNotReceiveEvent(error: String?) {
-        var alert:UIAlertView = UIAlertView(title: "Post Event Unsuccessful", message: error, delegate: nil, cancelButtonTitle: "Ok")
+        let alert:UIAlertView = UIAlertView(title: "Post Event Unsuccessful", message: error, delegate: nil, cancelButtonTitle: "Ok")
         
         alert.show()
     }

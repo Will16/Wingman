@@ -121,17 +121,17 @@ class User {
             
             if error != nil {
                 
-                println("Error != nil")
+                print("Error != nil")
                 self.registerDelegate?.signInUnsuccesful(error!)
             }
                 
             else {
                 
                 
-                println(responseInfo)
+                print(responseInfo)
                 
                 if let responseInfo: AnyObject = responseInfo as AnyObject? {
-                    println(responseInfo)
+                    print(responseInfo)
                 if let dataInfo: AnyObject = responseInfo["user"] {
                     if let token = dataInfo["authentication_token"] as? String {
                         self.token = token
@@ -180,15 +180,15 @@ class User {
          
             if error != nil {
                 
-                println("Error != nil")
+                print("Error != nil")
                 self.loginDelegate?.signInUnsuccesful(error!)
             }
             else {
                 
               
-                   println("WHAT")
+                   print("WHAT")
                 if let responseInfo: AnyObject = responseInfo as AnyObject? {
-                      println(responseInfo)
+                      print(responseInfo)
                     if let dataInfo: AnyObject = responseInfo["user"] {
                         if let token = dataInfo["authentication_token"] as? String {
                             self.token = token
@@ -214,7 +214,7 @@ class User {
                         
                     else {
                         
-                        println("No data Info")
+                        print("No data Info")
                         
                         self.loginDelegate?.signInUnsuccesful(responseInfo.description)
                     }
@@ -229,8 +229,8 @@ class User {
     
     func update(gender: String, interests: String, userId: Int, imageFile: String) {
         
-        println("THIS SHOULD BE OUR USERID: \(userId)")
-        println("THIS SHOULD BE OUR TOKEN: \(self.token)")
+        print("THIS SHOULD BE OUR USERID: \(userId)")
+        print("THIS SHOULD BE OUR TOKEN: \(self.token)")
         
         // the key names are for us (we chose the name of the keynames, the values are going to be used for url request)
         let options: [String:AnyObject] = [
@@ -251,17 +251,17 @@ class User {
         APIRequest.requestWithOptions(options, andCompletion: { (responseInfo, error) -> () in
             if error != nil {
                 
-                println("Error != nil")
+                print("Error != nil")
                 self.loginDelegate?.signInUnsuccesful(error!)
             } else {
                 
                 if let responseInfo: AnyObject = responseInfo as AnyObject? {
-                    println(responseInfo)
+                    print(responseInfo)
                     
                     
                     if let dataInfo: AnyObject = responseInfo["user"] {
                         
-                        println("Successful")
+                        print("Successful")
                         
                         self.loginDelegate?.goToApp()
                         
@@ -270,7 +270,7 @@ class User {
                         
                     } else {
                         
-                        println("Error")
+                        print("Error")
                         
                     }
                 }
@@ -301,17 +301,17 @@ class User {
         APIRequest.requestWithOptions(options, andCompletion: { (responseInfo, error) -> () in
             if error != nil {
                 
-                println("Error != nil")
+                print("Error != nil")
                self.postEventDelegate?.didNotReceiveEvent(error)
             } else {
                 
                 
                 if let responseInfo: AnyObject = responseInfo as AnyObject? {
-                    println(responseInfo)
+                    print(responseInfo)
            
                 if let dataInfo: AnyObject = responseInfo["event"] {
                     
-                    println("Successful")
+                    print("Successful")
                      self.postEventDelegate?.didReceiveEvent()
                     
                     
@@ -320,7 +320,7 @@ class User {
                     
                 } else {
                     
-                    println("Error")
+                    print("Error")
                     self.postEventDelegate?.didNotReceiveEvent(responseInfo.description)
                     
                 }
@@ -351,14 +351,14 @@ class User {
         APIRequest.requestWithOptions(options, andCompletion: { (responseInfo, error) -> () in
             if error != nil {
                 
-                println("Error != nil")
+                print("Error != nil")
                   self.getEventsDelegate?.didNotGetAllEvents(error)
                 // self.delegate2?.signInUnsuccesful(error!)
             }
             else {
                 
                 if let responseInfo: AnyObject = responseInfo as AnyObject? {
-                    println(responseInfo)
+                    print(responseInfo)
               
                 
                 if let dataInfo: AnyObject = responseInfo["events"] {
@@ -370,7 +370,7 @@ class User {
                     }
                     
                     
-                    println("Successful")
+                    print("Successful")
                     
                 
                     

@@ -18,13 +18,13 @@ func delay(delay:Double, closure:()->()) {
 }
 
 func textViewWithFont(textView: UITextView, fontName: String, fontSize: CGFloat, lineSpacing: CGFloat) {
-    var font = UIFont(name: fontName, size: fontSize)
-    var text = textView.text
+    let font = UIFont(name: fontName, size: fontSize)
+    let text = textView.text
     
-    var paragraphStyle = NSMutableParagraphStyle()
+    let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.lineSpacing = lineSpacing
     
-    var attributedString = NSMutableAttributedString(string: text)
+    let attributedString = NSMutableAttributedString(string: text)
     attributedString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedString.length))
     attributedString.addAttribute(NSFontAttributeName, value: font!, range: NSMakeRange(0, attributedString.length))
     

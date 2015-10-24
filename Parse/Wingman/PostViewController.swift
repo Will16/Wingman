@@ -110,28 +110,28 @@ class PostViewController: UIViewController, didChooseVenueProtocol {
         //"You chose: " label stuff here
         //venueChoiceLabel.text = "You chose: \()"
         
-        var scale1 = CGAffineTransformMakeScale(0.5, 0.5)
-        var translate1 = CGAffineTransformMakeTranslation(0, -100)
+        let scale1 = CGAffineTransformMakeScale(0.5, 0.5)
+        let translate1 = CGAffineTransformMakeTranslation(0, -100)
         self.chooseBarButton.transform = CGAffineTransformConcat(scale1, translate1)
         
         tabBarImageView!.hidden = false
-        springScaleFrom(tabBarImageView!, 0, -100, 0.5, 0.5)
+        springScaleFrom(tabBarImageView!, x: 0, y: -100, scaleX: 0.5, scaleY: 0.5)
         
       
         
         spring(1) {
             
             self.chooseBarButton.hidden = false
-            var scale = CGAffineTransformMakeScale(1, 1)
-            var translate = CGAffineTransformMakeTranslation(0, 0)
+            let scale = CGAffineTransformMakeScale(1, 1)
+            let translate = CGAffineTransformMakeTranslation(0, 0)
             self.chooseBarButton.transform = CGAffineTransformConcat(scale, translate)
         }
         
         // animate the textViews
         
         
-        var scale2 = CGAffineTransformMakeScale(0.5, 0.5)
-        var translate2 = CGAffineTransformMakeTranslation(0, 100)
+        let scale2 = CGAffineTransformMakeScale(0.5, 0.5)
+        let translate2 = CGAffineTransformMakeTranslation(0, 100)
         self.postButton.transform = CGAffineTransformConcat(scale2, translate2)
         
         self.postImageView.transform = CGAffineTransformConcat(scale2, translate2)
@@ -141,8 +141,8 @@ class PostViewController: UIViewController, didChooseVenueProtocol {
             self.postButton.hidden = false
             self.postImageView.hidden = false
             self.imageView.hidden = false
-            var scale = CGAffineTransformMakeScale(1, 1)
-            var translate = CGAffineTransformMakeTranslation(0, 0)
+            let scale = CGAffineTransformMakeScale(1, 1)
+            let translate = CGAffineTransformMakeTranslation(0, 0)
             self.postButton.transform = CGAffineTransformConcat(scale, translate)
             self.postImageView.transform = CGAffineTransformConcat(scale, translate)
             self.imageView.transform = CGAffineTransformConcat(scale, translate)
@@ -158,7 +158,7 @@ class PostViewController: UIViewController, didChooseVenueProtocol {
         
       
         
-        println("BUTTON WORKS")
+        print("BUTTON WORKS", terminator: "")
         
         
         if postData["clubOrBar"] != nil && startTime.text != "" && endTime.text != "" && phoneNumber.text != ""
@@ -166,17 +166,17 @@ class PostViewController: UIViewController, didChooseVenueProtocol {
         {
             
             
-            println("ALLFIELDSOK")
-            println(postData["clubOrBar"])
+            print("ALLFIELDSOK", terminator: "")
+            print(postData["clubOrBar"], terminator: "")
             
-            postData["startTime"] = startTime.text.toInt()
+            postData["startTime"] = Int(startTime.text!)
             
-            postData["endTime"] = endTime.text.toInt()
+            postData["endTime"] = Int(endTime.text!)
             
             postData["phonenumber"] = phoneNumber.text
             
             
-            var query = PFQuery(className:"_User")
+            let query = PFQuery(className:"_User")
             
             query.whereKey("objectId", equalTo: PFUser.currentUser().objectId)
             
@@ -191,18 +191,16 @@ class PostViewController: UIViewController, didChooseVenueProtocol {
                 
                 let user = objects.last as! PFUser
                 
-                println("USER:\(user)")
+                print("USER:\(user)", terminator: "")
 
                 
-                var postDataDict = self.postData
-              
-                
+          
          
                 user["postData"] = self.postData
                 
-                println("problem")
+                print("problem", terminator: "")
                 
-                var wingmanGender = self.postData["wingmanGender"] as! String
+                let wingmanGender = self.postData["wingmanGender"] as! String
                 user["wingmanGender"] = wingmanGender
              
       
@@ -223,9 +221,9 @@ class PostViewController: UIViewController, didChooseVenueProtocol {
             
         else {
             
-            var alertViewController = UIAlertController(title: "Submission Error", message: "Please complete all fields", preferredStyle: UIAlertControllerStyle.Alert)
+            let alertViewController = UIAlertController(title: "Submission Error", message: "Please complete all fields", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             
             alertViewController.addAction(defaultAction)
             
@@ -269,9 +267,9 @@ class PostViewController: UIViewController, didChooseVenueProtocol {
     
     func goToBrowseTableVC() {
         
-        var tbc = storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
+        let tbc = storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
         
-        println(tbc)
+        print(tbc, terminator: "")
         
         tbc?.tabBar.tintColor = UIColor.whiteColor()
         
@@ -295,7 +293,7 @@ class PostViewController: UIViewController, didChooseVenueProtocol {
     
     //dismiss the keyboard when tapping anywhere on view
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
     }
@@ -305,20 +303,20 @@ class PostViewController: UIViewController, didChooseVenueProtocol {
     //function letting us know which gender user chose and sending dictionary to Parse
     func switchIsChanged(sender: UISwitch){
         
-        println("Sender is = \(sender)")
+        print("Sender is = \(sender)", terminator: "")
         
         if genderSwitch.on{
             
             postData["wingmanGender"] = "male"
             
-            println("The switch is turned to male")
+            print("The switch is turned to male", terminator: "")
             
             
         } else {
             
             postData["wingmanGender"] = "female"
             
-            println("The switch is turned to female")
+            print("The switch is turned to female", terminator: "")
         }
         
     }
@@ -328,16 +326,16 @@ class PostViewController: UIViewController, didChooseVenueProtocol {
             postData["clubOrBar"] = venue.name
         
 
-        var CLLocation = venue.location
+        let CLLocation = venue.location
         
-        var geoPoint = PFGeoPoint(latitude: CLLocation.coordinate.latitude, longitude: CLLocation.coordinate.longitude)
+        let geoPoint = PFGeoPoint(latitude: CLLocation.coordinate.latitude, longitude: CLLocation.coordinate.longitude)
         
         
         postData["location"] = geoPoint
         
         
         
-        var venueName = venue.name
+        let venueName = venue.name
        self.chooseBarButton.setTitle(venueName, forState: UIControlState.Normal)
       
 
@@ -413,8 +411,7 @@ class PostViewController: UIViewController, didChooseVenueProtocol {
     @IBAction func logout(sender: AnyObject) {
         
         
-        let user = PFUser.currentUser() as PFUser
-        
+      
         PFUser.logOut()
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

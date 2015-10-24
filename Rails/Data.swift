@@ -10,7 +10,7 @@ import UIKit
 
 func getData() -> Array<Dictionary<String,String>> {
     
-    var data = [
+    let data = [
         [
             "title" : "Bug",
             "author": "Mike | Creative Mints",

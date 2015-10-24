@@ -64,13 +64,13 @@ class APIRequest {
             
         case "GET" :
             
-            print("GET")
+            print("GET", terminator: "")
             
         default :
             
             let bodyInfo = options["body"] as! [String: AnyObject]
             
-            let requestData = NSJSONSerialization.dataWithJSONObject(bodyInfo, options: NSJSONWritingOptions.allZeros, error: nil)
+            let requestData = try? NSJSONSerialization.dataWithJSONObject(bodyInfo, options: NSJSONWritingOptions())
             
             let jsonString = NSString(data: requestData!, encoding: NSUTF8StringEncoding)
             
@@ -96,7 +96,7 @@ class APIRequest {
                 
                 
                 // mutable containers so we can change something with it
-                let json = NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers, error: nil) as? [String:AnyObject]
+                let json = (try? NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers)) as? [String:AnyObject]
                 
                 // WE CALL THE COMPLETION BLOCK
                 completion(responseInfo: json, error: nil)
@@ -106,10 +106,10 @@ class APIRequest {
             else {
                 
                 
-                var errorString =  error.description
+                var errorString =  error!.description
                 
                 //completion(responseInfo: nil, error: errorString)
-                println(errorString)
+                print(errorString)
                 
                 
             }

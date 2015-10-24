@@ -47,7 +47,7 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
         
         var nav = self.navigationController?.navigationBar
         
-        customButton = UIButton.buttonWithType(UIButtonType.Custom) as? UIButton
+        customButton = UIButton(type: UIButtonType.Custom) as? UIButton
         customButton!.setBackgroundImage(UIImage(named: "backbutton"), forState: UIControlState.Normal)
         
 
@@ -98,12 +98,12 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
      
         customButton!.hidden = false
          self.imageView!.hidden = false
-         springScaleFrom(customButton!, -100, 0, 0.5, 0.5)
+         springScaleFrom(customButton!, x: -100, y: 0, scaleX: 0.5, scaleY: 0.5)
  
   
 
 
-        springScaleFrom(imageView!, 200, 0, 0.5, 0.5)
+        springScaleFrom(imageView!, x: 200, y: 0, scaleX: 0.5, scaleY: 0.5)
        
         self.logoImageView.layer.cornerRadius = 50
         self.logoImageView.clipsToBounds = true
@@ -185,7 +185,7 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
             
             tbc?.tabBar.barStyle = UIBarStyle.Black
             
-            println(tbc)
+            print(tbc)
             
             UIApplication.sharedApplication().keyWindow?.rootViewController = tbc
             
@@ -204,7 +204,7 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
     }
     
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
     }
@@ -231,7 +231,7 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
         
         
         
-        var image = UIImagePickerController()
+        let image = UIImagePickerController()
         image.delegate = self
         image.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
         image.allowsEditing = false
@@ -243,7 +243,7 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
     
     @IBOutlet weak var pickedImage: UIImageView!
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         self.dismissViewControllerAnimated(true, completion: nil)
         
         var image = info[UIImagePickerControllerOriginalImage] as! UIImage
@@ -266,24 +266,24 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
         
         // create a directory for storing the image and add the image name to that directory
         var paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-        var filePath = paths[0].stringByAppendingPathComponent(photoFileName)
+        var filePath = paths[0] + photoFileName
         
         // create a PNG version of our image and store it in our directory
-        UIImagePNGRepresentation(resizedImage).writeToFile(filePath, atomically: true)
+        UIImagePNGRepresentation(resizedImage)!.writeToFile(filePath, atomically: true)
         
 
         // take our singleton and call the postObject pre-defined method (pre-defined in the AFAmazonS3Manager class)
         // this method posts the filePath (of our directory with the image in it to the amazonS3. If successful, amazonS3 will store our image and we will have an amazonS3 link with our image in it.
         S3.model().s3Manager.postObjectWithFile(filePath, destinationPath: "", parameters: nil, progress: { (bytesWritten, totalBytesWritten, totalBytesExpectedToWrite) -> Void in
             
-                println("\(Int(CGFloat(totalBytesWritten) / CGFloat(totalBytesExpectedToWrite) * 100))% Uploaded")
+                print("\(Int(CGFloat(totalBytesWritten) / CGFloat(totalBytesExpectedToWrite) * 100))% Uploaded")
             
             }, success: { (responseObject) -> Void in
                 
                 // if successful, we have an amazon S3 link with our image in it. The url ends with our photoFileName (the specific string we created above with a random number at the end of it). We then store the imageUrl to our registerInfo dictionary that we're going to send to Rails. We only send that Url to Rails and not the image itself.
                 
                 
-                println(responseObject)
+                print(responseObject)
                 
                 
                 // store the imageUrl to our registerInfo dictionary that we're going to send to Rails
@@ -370,18 +370,18 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
     @IBAction func genderSC(sender: UISegmentedControl) {
         
         
-        var selectedSegment = sender.selectedSegmentIndex
+        let selectedSegment = sender.selectedSegmentIndex
         if selectedSegment == 0 {
             
             registerInfo["gender"] = "male"
-            println("isOff")
+            print("isOff")
         
         }
         
         if selectedSegment == 1 {
             
             registerInfo["gender"] = "female"
-            println("isOn")
+            print("isOn")
             
         }
         
@@ -413,14 +413,14 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
     func goToApp() {
         
         
-        var tbc = self.storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
+        let tbc = self.storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
         
         tbc?.tabBar.tintColor = UIColor.whiteColor()
         
         
         tbc?.tabBar.barStyle = UIBarStyle.Black
         
-        println(tbc)
+        print(tbc)
         
         UIApplication.sharedApplication().keyWindow?.rootViewController = tbc
         
@@ -429,16 +429,16 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
     func signInUnsuccesful(error: String) {
         
         
-        var alert:UIAlertView = UIAlertView(title: "Error", message: error, delegate: nil, cancelButtonTitle: "Ok")
+        let alert:UIAlertView = UIAlertView(title: "Error", message: error, delegate: nil, cancelButtonTitle: "Ok")
         
         alert.show()
     }
     
     func update() {
         
-        var gender = registerInfo["gender"] as! String
+        let gender = registerInfo["gender"] as! String
         
-        var imageUrl = registerInfo["image_string"] as! String
+        let imageUrl = registerInfo["image_string"] as! String
         
         if let userId = User.currentUser().userId {
             User.currentUser().update(gender, interests: self.interestField.text, userId: userId, imageFile:
@@ -464,14 +464,14 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
         // other fields can be set just like with PFObject
         //user["phone"] = "415-392-0202"
         
-        var fieldValues: [String] = [createUsernameField.text, createPasswordField.text, enterEmailField.text, interestField.text] //interestField.text
+        let fieldValues: [String] = [createUsernameField.text!, createPasswordField.text!, enterEmailField.text!, interestField.text!] //interestField.text
         
-        if find(fieldValues, "") != nil || self.registerInfo["image_string"] == nil {
+        if fieldValues.indexOf("") != nil || self.registerInfo["image_string"] == nil {
             
             //all fields are not filled in
-            var alertViewController = UIAlertController(title: "Submission Error", message: "Please complete all fields", preferredStyle: UIAlertControllerStyle.Alert)
+            let alertViewController = UIAlertController(title: "Submission Error", message: "Please complete all fields", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             
             alertViewController.addAction(defaultAction)
             
@@ -489,7 +489,7 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
             
        
             
-            User.currentUser().signUp(createUsernameField.text, email: enterEmailField.text, password: createPasswordField.text)
+            User.currentUser().signUp(createUsernameField.text!, email: enterEmailField.text!, password: createPasswordField.text!)
         }
     
     

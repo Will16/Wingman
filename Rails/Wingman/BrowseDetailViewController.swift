@@ -74,12 +74,12 @@ class BrowseDetailViewController: UIViewController, CLLocationManagerDelegate, M
 
       
         
-        println(self.phoneNumber)
+        print(self.phoneNumber)
         fillLabels()
         
         startUpdatingLocation()
         
-        customButton = UIButton.buttonWithType(UIButtonType.Custom) as? UIButton
+        customButton = UIButton(type: UIButtonType.Custom) as? UIButton
         customButton!.setBackgroundImage(UIImage(named: "backbutton"), forState: UIControlState.Normal)
         
         
@@ -123,17 +123,17 @@ class BrowseDetailViewController: UIViewController, CLLocationManagerDelegate, M
         startUpdatingLocation()
         
         customButton!.hidden = false
-        springScaleFrom(customButton!, -100, 0, 0.5, 0.5)
+        springScaleFrom(customButton!, x: -100, y: 0, scaleX: 0.5, scaleY: 0.5)
 
         
          imageView!.hidden = false
-        springScaleFrom(imageView!, 200, 0, 0.5, 0.5)
+        springScaleFrom(imageView!, x: 200, y: 0, scaleX: 0.5, scaleY: 0.5)
         
          self.userImage.hidden = false
-        springScaleFrom(userImage!, 0, -400, 0.5, 0.5)
+        springScaleFrom(userImage!, x: 0, y: -400, scaleX: 0.5, scaleY: 0.5)
         
         self.joinButton.hidden = false
-        springScaleFrom(joinButton!, 0, 200, 0.5, 0.5)
+        springScaleFrom(joinButton!, x: 0, y: 200, scaleX: 0.5, scaleY: 0.5)
         
         
     }
@@ -186,12 +186,12 @@ class BrowseDetailViewController: UIViewController, CLLocationManagerDelegate, M
                         
                         
                         
-                        var latitude = Double(latitudeFloat)
-                        var longitude = Double(longitudeFloat)
+                        let latitude = Double(latitudeFloat)
+                        let longitude = Double(longitudeFloat)
                         
-                        println("LATITUDE IS : \(latitude)")
-                        println("LONGITUDE IS : \(longitude)")
-                        var venueLocation = PFGeoPoint(latitude: latitude, longitude: longitude)
+                        print("LATITUDE IS : \(latitude)")
+                        print("LONGITUDE IS : \(longitude)")
+                        let venueLocation = PFGeoPoint(latitude: latitude, longitude: longitude)
                         self.venueLocation = venueLocation
                     }
                     
@@ -237,7 +237,7 @@ class BrowseDetailViewController: UIViewController, CLLocationManagerDelegate, M
                         if let fileName = urlParts.last {
                             
                             var paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-                            var filePath = paths[0].stringByAppendingPathComponent(fileName)
+                            let filePath = paths[0] + fileName
                             
                             getImageWithFilePath(filePath, fileName: fileName, completion: { () -> () in
                                 
@@ -275,8 +275,11 @@ func getImageWithFilePath(filePath: String, fileName: String, completion: (() ->
         
     }
     
-    // if timestamp of update then delete and redownload ... TODO
-    NSFileManager.defaultManager().removeItemAtPath(filePath, error: nil)
+    do {
+        // if timestamp of update then delete and redownload ... TODO
+        try NSFileManager.defaultManager().removeItemAtPath(filePath)
+    } catch _ {
+    }
     
     let outputStream = NSOutputStream(toFileAtPath: filePath, append: false)
     
@@ -288,7 +291,7 @@ func getImageWithFilePath(filePath: String, fileName: String, completion: (() ->
         
         }, success: { (responseObject) -> Void in
             
-            println("image saved")
+            print("image saved")
             
             if let c = completion { c() }
             
@@ -304,13 +307,13 @@ func getImageWithFilePath(filePath: String, fileName: String, completion: (() ->
     }
     
     
-    func locationManager(manager:CLLocationManager!, didUpdateLocations locations:[AnyObject]!) {
+    func locationManager(manager:CLLocationManager, didUpdateLocations locations:[CLLocation]) {
         
-        println("Springtime is here!!!")
+        print("Springtime is here!!!")
         let location = getLatestMeasurementFromLocations(locations)
         
         
-        println("my location: \(location)")
+        print("my location: \(location)")
         if isLocationMeasurementNotCached(location) && isHorizontalAccuracyValidMeasurement(location) && isLocationMeasurementDesiredAccuracy(location) {
             
             stopUpdatingLocation()
@@ -322,15 +325,15 @@ func getImageWithFilePath(filePath: String, fileName: String, completion: (() ->
                     if let venueLocation = CLLocation(latitude: latitude, longitude: longitude) as CLLocation? {
                         
                         //convert meters into miles
-                        var dist1 = venueLocation.distanceFromLocation(location) * 0.00062137
+                        let dist1 = venueLocation.distanceFromLocation(location) * 0.00062137
                         
                         //rounding to nearest hundredth
-                        var dist2 = Double(round(100 * dist1) / 100)
+                        let dist2 = Double(round(100 * dist1) / 100)
                         
                         
                         self.distanceLabel.text = "Which is \(dist2) mi from you"
                         
-                        println("THE DISTANCE: \(dist2)")
+                        print("THE DISTANCE: \(dist2)")
                     }
                 }
                 
@@ -340,7 +343,7 @@ func getImageWithFilePath(filePath: String, fileName: String, completion: (() ->
     }
     
     //if error stop updating location
-    func locationManager(manager:CLLocationManager!, didFailWithError error:NSError!) {
+    func locationManager(manager:CLLocationManager, didFailWithError error:NSError) {
         if error.code != CLError.LocationUnknown.rawValue {
             stopUpdatingLocation()
         }
@@ -372,7 +375,7 @@ func getImageWithFilePath(filePath: String, fileName: String, completion: (() ->
         }
         
         lManager.startUpdatingLocation()
-        println("start updating location")
+        print("start updating location")
     }
     
     func stopUpdatingLocation() {
@@ -400,7 +403,7 @@ func getImageWithFilePath(filePath: String, fileName: String, completion: (() ->
     }
     
     
-    func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
+    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
         
         controller.dismissViewControllerAnimated(true, completion: nil)
     }

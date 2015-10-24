@@ -44,7 +44,7 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate, UI
     
     @IBAction func doneButton(sender: AnyObject) {
         
-        if let venue = self.clubOrBar
+        if let _ = self.clubOrBar
         {
             showAlert()
             
@@ -83,21 +83,21 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate, UI
     override func viewDidAppear(animated: Bool) {
         
         
-        var scale1 = CGAffineTransformMakeScale(0.5, 0.5)
-        var translate1 = CGAffineTransformMakeTranslation(0, 200)
+        let scale1 = CGAffineTransformMakeScale(0.5, 0.5)
+        let translate1 = CGAffineTransformMakeTranslation(0, 200)
         self.imageView.transform = CGAffineTransformConcat(scale1, translate1)
         
         spring(1) {
             
             self.imageView.hidden = false
-            var scale = CGAffineTransformMakeScale(1, 1)
-            var translate = CGAffineTransformMakeTranslation(0, 0)
+            let scale = CGAffineTransformMakeScale(1, 1)
+            let translate = CGAffineTransformMakeTranslation(0, 0)
             self.imageView.transform = CGAffineTransformConcat(scale, translate)
         }
 
         
         backButton.alpha = 1
-        springScaleFrom(backButton!, -100, 0, 0.5, 0.5)
+        springScaleFrom(backButton!, x: -100, y: 0, scaleX: 0.5, scaleY: 0.5)
         
         self.navigationController?.navigationBar.barStyle = UIBarStyle.BlackTranslucent
         
@@ -141,9 +141,8 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate, UI
     //changes the color of the items in the pickerview rows to white
     func pickerView(pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         
-        var venue = venues[row]
-        var venueName = venue.name
-        
+        let venue = venues[row]
+       
         let attributedString = NSAttributedString(string: venue.name, attributes: [NSForegroundColorAttributeName : UIColor.whiteColor()])
         
         return attributedString
@@ -153,7 +152,7 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate, UI
         
         if row < venues.count {
             
-            var clubOrBar = venues[row]
+            let clubOrBar = venues[row]
             
              self.clubOrBar = clubOrBar
             //saves the club/bar in postData column in Parse
@@ -161,13 +160,13 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate, UI
          
         
            
-            var location = clubOrBar.location
+            let location = clubOrBar.location
             
             let geoPoint = PFGeoPoint(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude) as PFGeoPoint
             //saves location of club/bar in postData column in Parse
             postData["location"] = geoPoint
             
-            println("\(row)")
+            print("\(row)", terminator: "")
             
             
             self.delegate?.didReceiveVenueChoice(clubOrBar)
@@ -198,12 +197,12 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate, UI
 //run the API call once to avoid maxing out rate limit
     var once: dispatch_once_t = 0
     
-    func locationManager(manager:CLLocationManager!, didUpdateLocations locations:[AnyObject]!) {
+    func locationManager(manager:CLLocationManager, didUpdateLocations locations:[CLLocation]) {
         let location = getLatestMeasurementFromLocations(locations)
         
         dispatch_once(&once, { () -> Void in
             
-            println("my: \(location)")
+            print("my: \(location)", terminator: "")
             if self.isLocationMeasurementNotCached(location) && self.isHorizontalAccuracyValidMeasurement(location) {
                 
                 //                if self.isLocationMeasurementDesiredAccuracy(location) {
@@ -223,7 +222,7 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate, UI
         
     }
     
-    func locationManager(manager:CLLocationManager!, didFailWithError error:NSError!) {
+    func locationManager(manager:CLLocationManager, didFailWithError error:NSError) {
         if error.code != CLError.LocationUnknown.rawValue {
             stopUpdatingLocation()
         }
@@ -234,12 +233,12 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate, UI
     }
     
     func isLocationMeasurementNotCached(location:CLLocation) -> Bool {
-        println("cache = \(location.timestamp.timeIntervalSinceNow)")
+        print("cache = \(location.timestamp.timeIntervalSinceNow)", terminator: "")
         return location.timestamp.timeIntervalSinceNow <= 5.0
     }
     
     func isHorizontalAccuracyValidMeasurement(location:CLLocation) -> Bool {
-        println("accuracy = \(location.horizontalAccuracy)")
+        print("accuracy = \(location.horizontalAccuracy)", terminator: "")
         return location.horizontalAccuracy >= 0
     }
     
@@ -258,7 +257,7 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate, UI
         }
         
         lManager.startUpdatingLocation()
-        println("start updating location")
+        print("start updating location", terminator: "")
     }
     
     func stopUpdatingLocation() {
@@ -273,13 +272,13 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate, UI
     
     func didReceiveVenues(results: [ClubOrBarVenues]) {
         
-        venues = sorted(results, { (s1, s2) -> Bool in
+        venues = results.sort({ (s1, s2) -> Bool in
             
             return (s1 as ClubOrBarVenues).distanceFromUser > (s2 as ClubOrBarVenues).distanceFromUser
             
         })
         
-        println("boom")
+        print("boom", terminator: "")
         
         lastUpdated = NSDate()
         
@@ -291,8 +290,7 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate, UI
     
     @IBAction func logout(sender: AnyObject) {
         
-        let user = PFUser.currentUser() as PFUser
-        
+     
         PFUser.logOut()
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

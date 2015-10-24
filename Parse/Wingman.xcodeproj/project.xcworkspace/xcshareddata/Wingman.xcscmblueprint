@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "0CAA4A714B16B1F886D11884B1930E56C85BD2B1",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "97DAD3BEEE6228021BE0AC642482A361F30D073B" : 0,
+    "0CAA4A714B16B1F886D11884B1930E56C85BD2B1" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "18A670DB-54AB-4728-9E69-21931FD6B6F4",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "97DAD3BEEE6228021BE0AC642482A361F30D073B" : "",
+    "0CAA4A714B16B1F886D11884B1930E56C85BD2B1" : "Wingman"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Wingman",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Parse\/Wingman.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Will16\/Wingman.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0CAA4A714B16B1F886D11884B1930E56C85BD2B1"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Will16\/Portfolio.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "97DAD3BEEE6228021BE0AC642482A361F30D073B"
+    }
+  ]
+}
