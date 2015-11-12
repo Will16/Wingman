@@ -77,6 +77,8 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
         
     }
     
+    // viewWillAppear:
+    
     override func viewWillAppear(animated: Bool) {
         
         self.imageView!.hidden = true
