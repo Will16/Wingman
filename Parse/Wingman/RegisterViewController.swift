@@ -28,8 +28,13 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
     
     var imageView: UIImageView?
     
+    var gender = "Male"
+    var seekingGender = "Female"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+          GlobalVariableSharedInstance.startUpdatingLocation()
 //        
 //        pickProfilePicButton.addTarget(self, action: "buttonClicked:", forControlEvents: UIControlState.Highlighted)
 //        
@@ -86,9 +91,8 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
 
         self.createUsernameField.hidden = true
         self.createPasswordField.hidden = true
-        self.enterEmailField.hidden = true
-        
-        self.pickedImage.hidden = true
+      
+        self.logoImageView.hidden = true
         
         
         
@@ -105,7 +109,7 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
 
         springScaleFrom(imageView!, x: 200, y: 0, scaleX: 0.5, scaleY: 0.5)
        
-        self.logoImageView.layer.cornerRadius = 50
+        self.logoImageView.layer.cornerRadius = self.logoImageView.frame.size.width/2
         self.logoImageView.clipsToBounds = true
         
         // animate the logoImageView
@@ -126,17 +130,8 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
         
         let scale2 = CGAffineTransformMakeScale(0.5, 0.5)
         let translate2 = CGAffineTransformMakeTranslation(0, -100)
-        self.enterEmailField.transform = CGAffineTransformConcat(scale2, translate2)
-        
-        spring(1) {
-            self.enterEmailField.hidden = false
-            let scale = CGAffineTransformMakeScale(1, 1)
-            let translate = CGAffineTransformMakeTranslation(0, 0)
-            self.enterEmailField.transform = CGAffineTransformConcat(scale, translate)
        
-            
-        }
-        
+
         let scale3 = CGAffineTransformMakeScale(0.5, 0.5)
         let translate3 = CGAffineTransformMakeTranslation(0, -100)
         self.createPasswordField.transform = CGAffineTransformConcat(scale3, translate3)
@@ -153,13 +148,13 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
         
         let scale4 = CGAffineTransformMakeScale(0.5, 0.5)
         let translate4 = CGAffineTransformMakeTranslation(0, 200)
-        self.pickedImage.transform = CGAffineTransformConcat(scale4, translate4)
+        self.logoImageView.transform = CGAffineTransformConcat(scale4, translate4)
         
         spring(1) {
-            self.pickedImage.hidden = false
+            self.logoImageView.hidden = false
             let scale = CGAffineTransformMakeScale(1, 1)
             let translate = CGAffineTransformMakeTranslation(0, 0)
-            self.pickedImage.transform = CGAffineTransformConcat(scale, translate)
+            self.logoImageView.transform = CGAffineTransformConcat(scale, translate)
             
             
         }
@@ -242,8 +237,7 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
         
     }
     
-    @IBOutlet weak var pickedImage: UIImageView!
-    
+  
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         self.dismissViewControllerAnimated(true, completion: nil)
         
@@ -252,7 +246,7 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
         //profileImage = scaleImage(profileImage, newSize: CGSizeMake(600, 600))
         
         
-        pickedImage.image = image
+        logoImageView.image = image
         
         let resizedImage = self.resizeImage(image, toSize: CGSizeMake(100, 100))
         
@@ -334,7 +328,7 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
     
     @IBOutlet weak var createUsernameField: UITextField!
     
-    @IBOutlet weak var enterEmailField: UITextField!
+
     
     @IBOutlet weak var createPasswordField: UITextField!
     
@@ -343,6 +337,32 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
     
     @IBOutlet weak var logoImageView: UIImageView!
     
+    @IBAction func seekingGenderSC(sender: AnyObject) {
+        
+        
+        let selectedSegment = sender.selectedSegmentIndex
+        if selectedSegment == 0 {
+            
+            registerInfo["wingmanGender"] = "male"
+          
+            
+        }
+        
+        if selectedSegment == 1 {
+            
+            registerInfo["wingmanGender"] = "female"
+       
+        }
+        
+        if selectedSegment == 2 {
+            
+            registerInfo["wingmanGender"] = "both"
+           
+            
+        }
+        
+        
+    }
     @IBAction func genderSC(sender: UISegmentedControl) {
         
         
@@ -389,26 +409,15 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
     @IBAction func signUp(sender: AnyObject) {
         
      
+        print("SIGNUP BUTTON WORKS")
         
-        user.username = createUsernameField.text
-        user.password = createPasswordField.text
-        user.email = enterEmailField.text
+     
+        let fieldValues = [createUsernameField.text!, createPasswordField.text!, interestField.text!] //interestField.text
         
-        //how to take results from func genderSC and put it here?
-      
-       // user["gender"] = String(genderSC(UISegmentedControl(items: segments)))
-        
-        //how to save a pic in Parse?
-        //user["profile pic"] =
-       //user["interests"] = interestField[] or .text
-        
-        // other fields can be set just like with PFObject
-        //user["phone"] = "415-392-0202"
-        
-        let fieldValues = [createUsernameField.text, createPasswordField.text, enterEmailField.text, interestField.text] //interestField.text
-        
-        if (fieldValues as! [String]).indexOf("") != nil || self.registerInfo["imageFile"] == nil {
+        if (fieldValues).indexOf("") != nil || self.registerInfo["imageFile"] == nil {
             
+            
+            print("TEXTFIELDS NOT COMPLETE")
             //all fields are not filled in
             let alertViewController = UIAlertController(title: "Submission Error", message: "Please complete all fields", preferredStyle: UIAlertControllerStyle.Alert)
             
@@ -424,7 +433,13 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
         }
             
         else {
+            user.username = createUsernameField.text
+            user.password = createPasswordField.text
+      
             
+            
+            
+            print("TEXTFIELDS COMPLETE")
             registerInfo["username"] = self.createUsernameField.text
             registerInfo["interests"] = self.interestField.text
             
@@ -432,7 +447,7 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
                 (succeeded: Bool, error: NSError!) -> Void in
                 if error == nil {
                     // Hooray! Let them use the app now.
-                                        self.saveInfoToParse()
+                    self.saveInfoToParse()
                     
                  
                  
@@ -495,10 +510,16 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
                 //this creates the registerInfo column in Parse
                 user["registerInfo"] = self.registerInfo
                 
-                let gender = self.registerInfo["gender"] as! String?
-                user["gender"] = gender
+                if let gender = self.registerInfo["gender"] as? String {
+                    user["gender"] = gender
+                    self.gender = gender
+                }
+                if let wingmanGender = self.registerInfo["wingmanGender"] as? String {
+                    user["wingmanGender"] = wingmanGender
+                    self.seekingGender = wingmanGender
+                }
                 
-                user["postData"] = ["name": "JOHN", "AGE": "12"]
+//                user["postData"] = ["name": "JOHN", "AGE": "12"]
                 user.saveInBackground()
                 
                 
@@ -509,7 +530,12 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate, 
                 
                 tbc?.tabBar.barStyle = UIBarStyle.Black
                 
-                print(tbc)
+                let  navigationVC = tbc?.viewControllers![0] as! UINavigationController
+                
+                let tableViewVC = navigationVC.viewControllers[0] as! BrowseTableViewController
+               tableViewVC.gender = self.gender
+                tableViewVC.seekingGender = self.seekingGender
+                
                 
                 UIApplication.sharedApplication().keyWindow?.rootViewController = tbc
                 

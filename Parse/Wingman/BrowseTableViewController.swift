@@ -26,6 +26,8 @@ class BrowseTableViewController: UITableViewController, userLocationProtocol, CL
     var gender: String?
     var seekingGender: String?
     
+//    var tempGeoPoint = PFGeoPoint(latitude: 33.78604932800356, longitude: -84.37840104103088)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -160,6 +162,7 @@ class BrowseTableViewController: UITableViewController, userLocationProtocol, CL
         let query = PFUser.query()
         query.whereKey("objectId", equalTo: PFUser.currentUser().objectId)
         
+        print("OBJECTID + \(PFUser.currentUser().objectId)")
         query.findObjectsInBackgroundWithBlock() {
             (objects:[AnyObject]!, error:NSError!)->Void in
             if ((error) == nil) {
@@ -187,7 +190,7 @@ class BrowseTableViewController: UITableViewController, userLocationProtocol, CL
                         
                     else {
                         
-                        self.loadUsers(nil, ourGender: nil)
+                        self.loadUsers(self.seekingGender, ourGender: self.gender)
                         
                     }
                 }
@@ -211,6 +214,10 @@ class BrowseTableViewController: UITableViewController, userLocationProtocol, CL
         
         query.whereKey("objectId", notEqualTo: PFUser.currentUser().objectId)
         
+        
+        
+//        query.whereKey("location", nearGeoPoint: tempGeoPoint, withinMiles: 1000)
+        
         if (self.userLocation != nil) {
             query.whereKey("location", nearGeoPoint: PFGeoPoint(location: userLocation), withinMiles: 1000)
         }
@@ -220,9 +227,17 @@ class BrowseTableViewController: UITableViewController, userLocationProtocol, CL
         if let seekingGender = seekingGender as String? {
             
             if let ourGender = ourGender as String? {
-                query.whereKey("gender", equalTo: seekingGender)
                 
-                query.whereKey("wingmanGender", equalTo: ourGender)
+                if seekingGender == "both" {
+                    query.whereKey("wingmanGender", equalTo: ourGender)
+                }
+                
+                else {
+                    query.whereKey("gender", equalTo: seekingGender)
+                    
+                    query.whereKey("wingmanGender", equalTo: ourGender)
+                }
+               
                 
             }
             
@@ -366,10 +381,17 @@ class BrowseTableViewController: UITableViewController, userLocationProtocol, CL
             
             if let venueLocation =  postData["location"] as? PFGeoPoint  {
                 
+                
                 if let venueLocation = CLLocation(latitude: venueLocation.latitude, longitude: venueLocation.longitude) as CLLocation? {
-                    
+//                    
+//                    let tempCLLocation = CLLocation(latitude: self.tempGeoPoint!.latitude, longitude: self.tempGeoPoint!.longitude) as CLLocation?
                     //convert meters into miles
-                    let dist1 = venueLocation.distanceFromLocation(userLocation) * 0.00062137
+                   
+                    
+//                    let dist1 = venueLocation.distanceFromLocation(tempCLLocation!) * 0.00062137
+
+                    
+                     let dist1 = venueLocation.distanceFromLocation(userLocation) * 0.00062137
                     
                     //rounding to nearest hundredth
                     let dist2 = Double(round(100 * dist1) / 100)
@@ -425,10 +447,9 @@ class BrowseTableViewController: UITableViewController, userLocationProtocol, CL
     
     func didReceiveUserLocation(location: CLLocation) {
         
-        print("Received user location")
         userLocation = location
         
-        //
+        
         self.loadCurrentUserAndThenLoadUsers()
     }
     

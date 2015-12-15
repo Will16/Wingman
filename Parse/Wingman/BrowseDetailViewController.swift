@@ -59,6 +59,9 @@ class BrowseDetailViewController: UIViewController, MFMessageComposeViewControll
     
     var imageView: UIImageView?
     
+//        var tempGeoPoint = PFGeoPoint(latitude: 33.78604932800356, longitude: -84.37840104103088)
+    
+    
     @IBAction func joinButton(sender: AnyObject) {
          messageUser()
     }
@@ -251,8 +254,11 @@ class BrowseDetailViewController: UIViewController, MFMessageComposeViewControll
                 
                 if let venueLocation = CLLocation(latitude: latitude, longitude: longitude) as CLLocation? {
                     
+//                     let tempCLLocation = CLLocation(latitude: self.tempGeoPoint!.latitude, longitude: self.tempGeoPoint!.longitude) as CLLocation?
+                    
                     //convert meters into miles
                     let dist1 = venueLocation.distanceFromLocation(location) * 0.00062137
+//                    let dist1 = venueLocation.distanceFromLocation(tempCLLocation!) * 0.00062137
                     
                     //rounding to nearest hundredth
                     let dist2 = Double(round(100 * dist1) / 100)

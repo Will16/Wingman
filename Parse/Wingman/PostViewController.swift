@@ -18,7 +18,7 @@ class PostViewController: UIViewController, didChooseVenueProtocol {
     
     @IBOutlet weak var venueChoiceLabel: UILabel!
     
-    @IBOutlet weak var genderSwitch: UISwitch!
+
     
     
     @IBOutlet weak var startTime: UITextField!
@@ -62,10 +62,7 @@ class PostViewController: UIViewController, didChooseVenueProtocol {
     //   insertBlurView(backgroundMaskView, UIBlurEffectStyle.Dark)
         
         
-        postData["wingmanGender"] = "female"
-        //postData["venues"] = ""
-        genderSwitch.addTarget(self, action: "switchIsChanged:", forControlEvents: .ValueChanged)
-        
+
         
         // add if lastUpdated timeinterval is less than 5 minutes
        /* if venues.count > 0 {
@@ -206,9 +203,7 @@ class PostViewController: UIViewController, didChooseVenueProtocol {
                 }
                 print("problem", terminator: "")
                 
-                let wingmanGender = self.postData["wingmanGender"] as! String
-                user["wingmanGender"] = wingmanGender
-             
+                
       
                 
                 user.saveInBackground()
@@ -306,26 +301,7 @@ class PostViewController: UIViewController, didChooseVenueProtocol {
     
     
     
-    //function letting us know which gender user chose and sending dictionary to Parse
-    func switchIsChanged(sender: UISwitch){
-        
-        print("Sender is = \(sender)", terminator: "")
-        
-        if genderSwitch.on{
-            
-            postData["wingmanGender"] = "male"
-            
-            print("The switch is turned to male", terminator: "")
-            
-            
-        } else {
-            
-            postData["wingmanGender"] = "female"
-            
-            print("The switch is turned to female", terminator: "")
-        }
-        
-    }
+  
     
     func didReceiveVenueChoice(venue: ClubOrBarVenues) {
         
