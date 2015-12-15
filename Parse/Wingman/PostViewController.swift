@@ -43,6 +43,8 @@ class PostViewController: UIViewController, didChooseVenueProtocol {
     
     var tabBarImageView: UIImageView?
     
+    var userLocation: PFGeoPoint?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -198,6 +200,10 @@ class PostViewController: UIViewController, didChooseVenueProtocol {
          
                 user["postData"] = self.postData
                 
+                if self.userLocation != nil {
+                    
+                    user["location"] = self.userLocation
+                }
                 print("problem", terminator: "")
                 
                 let wingmanGender = self.postData["wingmanGender"] as! String
@@ -330,6 +336,7 @@ class PostViewController: UIViewController, didChooseVenueProtocol {
         
         let geoPoint = PFGeoPoint(latitude: CLLocation.coordinate.latitude, longitude: CLLocation.coordinate.longitude)
         
+        userLocation = geoPoint
         
         postData["location"] = geoPoint
         

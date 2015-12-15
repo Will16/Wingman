@@ -10,7 +10,7 @@ import UIKit
 
 class BrowseTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var genderLabel: UILabel!
+    @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
     
 
@@ -27,7 +27,7 @@ class BrowseTableViewCell: UITableViewCell {
         // Initialization code
         
    
-        springScaleFrom(genderLabel, x: 200, y: 200, scaleX: 0.5, scaleY: 0.5)
+        springScaleFrom(distanceLabel, x: 200, y: 200, scaleX: 0.5, scaleY: 0.5)
         
         springScaleFrom(usernameLabel, x: 200, y: 200, scaleX: 0.5, scaleY: 0.5)
         springScaleFrom(clubOrBarLabel, x: 200, y: 200, scaleX: 0.5, scaleY: 0.5)

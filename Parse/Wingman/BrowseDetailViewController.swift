@@ -9,7 +9,7 @@
 import UIKit
 import MessageUI
 
-class BrowseDetailViewController: UIViewController, CLLocationManagerDelegate, MFMessageComposeViewControllerDelegate {
+class BrowseDetailViewController: UIViewController, MFMessageComposeViewControllerDelegate, userLocationProtocol, CLLocationManagerDelegate {
 
     
     var registerInfo: [String: AnyObject]?
@@ -38,7 +38,7 @@ class BrowseDetailViewController: UIViewController, CLLocationManagerDelegate, M
     @IBOutlet weak var interestsLabel: UILabel!
     
     
-    @IBOutlet weak var seekingLabel: UILabel!
+
     
 
     
@@ -73,13 +73,11 @@ class BrowseDetailViewController: UIViewController, CLLocationManagerDelegate, M
 
          joinButton.titleLabel!.minimumScaleFactor = 0.3
         
-        userImage.layer.cornerRadius = userImage.frame.size.width/2
         
-       
-        interestsLabel.layer.cornerRadius = interestsLabel.frame.size.width/20
         fillLabels()
         
-        startUpdatingLocation()
+        GlobalVariableSharedInstance.startUpdatingLocation()
+          GlobalVariableSharedInstance.delegate = self
         
         customButton = UIButton(type: UIButtonType.Custom)
         customButton!.setBackgroundImage(UIImage(named: "backbutton"), forState: UIControlState.Normal)
@@ -113,30 +111,43 @@ class BrowseDetailViewController: UIViewController, CLLocationManagerDelegate, M
         self.userImage.hidden = true
         self.joinButton.hidden = true
         
+        userImage.clipsToBounds = true
+        userImage.layer.cornerRadius = userImage.frame.size.height/2
         
-    }
-    
-    override func viewDidAppear(animated:Bool){
         
-      //  self.navigationController?.navigationItem.backBarButtonItem =
+        interestsLabel.layer.cornerRadius = interestsLabel.frame.size.width/18
         
-         print(self.phoneNumber, terminator: "")
+        self.view.layoutSubviews()
+
         
-        startUpdatingLocation()
+        print(self.phoneNumber, terminator: "")
+        
+        
         
         customButton!.hidden = false
         springScaleFrom(customButton!, x: -100, y: 0, scaleX: 0.5, scaleY: 0.5)
-
         
-         imageView!.hidden = false
+        
+        imageView!.hidden = false
         springScaleFrom(imageView!, x: 200, y: 0, scaleX: 0.5, scaleY: 0.5)
         
-         self.userImage.hidden = false
+        self.userImage.hidden = false
         springScaleFrom(userImage!, x: 0, y: -400, scaleX: 0.5, scaleY: 0.5)
         
         self.joinButton.hidden = false
         springScaleFrom(joinButton!, x: 0, y: 200, scaleX: 0.5, scaleY: 0.5)
         
+    }
+    
+    
+    override func viewWillAppear(animated: Bool) {
+        
+    }
+    override func viewDidAppear(animated:Bool){
+        
+      //  self.navigationController?.navigationItem.backBarButtonItem =
+        
+  
         
     }
     
@@ -207,12 +218,12 @@ class BrowseDetailViewController: UIViewController, CLLocationManagerDelegate, M
                 
             }
             
-            if let wingmanGender = postData["wingmanGender"] as? String {
-                
-                self.seekingLabel.text = "Seeking \(wingmanGender) Wingman"
-                
-            }
-            
+//            if let wingmanGender = postData["wingmanGender"] as? String {
+//                
+//                self.seekingLabel.text = "Seeking \(wingmanGender) Wingman"
+//                
+//            }
+//            
             //retrieving location from Parse
             if let venueLocation = postData["location"] as? PFGeoPoint {
                 self.venueLocation = venueLocation
@@ -230,80 +241,33 @@ class BrowseDetailViewController: UIViewController, CLLocationManagerDelegate, M
     }
     
     
-    func locationManager(manager:CLLocationManager, didUpdateLocations locations:[CLLocation]) {
+   
+    func didReceiveUserLocation(location: CLLocation) {
         
-        print("Springtime is here!!!", terminator: "")
-        let location = getLatestMeasurementFromLocations(locations)
-        
-        
-        print("my location: \(location)", terminator: "")
-        if isLocationMeasurementNotCached(location) && isHorizontalAccuracyValidMeasurement(location) && isLocationMeasurementDesiredAccuracy(location) {
+       
+        if let latitude =  self.venueLocation?.latitude  as Double? {
             
-            stopUpdatingLocation()
-           
-            if let latitude =  self.venueLocation?.latitude  as Double? {
+            if let longitude = self.venueLocation?.longitude as Double? {
                 
-                if let longitude = self.venueLocation?.longitude as Double? {
+                if let venueLocation = CLLocation(latitude: latitude, longitude: longitude) as CLLocation? {
                     
-                    if let venueLocation = CLLocation(latitude: latitude, longitude: longitude) as CLLocation? {
-                        
-                        //convert meters into miles
-                        let dist1 = venueLocation.distanceFromLocation(location) * 0.00062137
-                        
-                        //rounding to nearest hundredth
-                        let dist2 = Double(round(100 * dist1) / 100)
-                        
-                        
-                        self.distanceLabel.text = "Which is \(dist2) mi from you"
-                        
-                        print("THE DISTANCE: \(dist2)", terminator: "")
-                    }
+                    //convert meters into miles
+                    let dist1 = venueLocation.distanceFromLocation(location) * 0.00062137
+                    
+                    //rounding to nearest hundredth
+                    let dist2 = Double(round(100 * dist1) / 100)
+                    
+                    
+                    self.distanceLabel.text = "Which is \(dist2) mi from you"
+                    
+                    print("THE DISTANCE: \(dist2)", terminator: "")
                 }
-                
             }
             
-        }
-    }
-    
-    //if error stop updating location
-    func locationManager(manager:CLLocationManager, didFailWithError error:NSError) {
-        if error.code != CLError.LocationUnknown.rawValue {
-            stopUpdatingLocation()
-        }
-    }
-    
-    func getLatestMeasurementFromLocations(locations:[AnyObject]) -> CLLocation {
-        return locations[locations.count - 1] as! CLLocation
-    }
-    
-    func isLocationMeasurementNotCached(location:CLLocation) -> Bool {
-        return location.timestamp.timeIntervalSinceNow <= 5.0
-    }
-    
-    func isHorizontalAccuracyValidMeasurement(location:CLLocation) -> Bool {
-        return location.horizontalAccuracy >= 0
-    }
-    
-    func isLocationMeasurementDesiredAccuracy(location:CLLocation) -> Bool {
-        
-        return location.horizontalAccuracy <= lManager.desiredAccuracy
-    }
-    
-    func startUpdatingLocation() {
-        lManager.delegate = self
-        lManager.desiredAccuracy = kCLLocationAccuracyKilometer
-        
-        if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.NotDetermined {
-            lManager.requestAlwaysAuthorization()
+
         }
         
-        lManager.startUpdatingLocation()
-        print("start updating location", terminator: "")
-    }
-    
-    func stopUpdatingLocation() {
-        lManager.stopUpdatingLocation()
-        lManager.delegate = nil
+
     }
     
     func messageUser() {
@@ -324,6 +288,7 @@ class BrowseDetailViewController: UIViewController, CLLocationManagerDelegate, M
         }
         
     }
+    
     
     
     func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {

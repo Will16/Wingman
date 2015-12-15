@@ -9,7 +9,7 @@
 import UIKit
 
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, CLLocationManagerDelegate  {
     
     
     @IBOutlet weak var logoImageView: UIImageView!
@@ -26,6 +26,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
     
+        GlobalVariableSharedInstance.startUpdatingLocation()
         
         animator = UIDynamicAnimator(referenceView: view)
         
@@ -66,6 +67,7 @@ class LoginViewController: UIViewController {
     
     
     override func viewWillAppear(animated: Bool) {
+
 
         self.logoImageView.hidden = true
         self.loginButton.hidden = true

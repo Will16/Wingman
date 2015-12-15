@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BrowseTableViewController: UITableViewController {
+class BrowseTableViewController: UITableViewController, userLocationProtocol, CLLocationManagerDelegate {
     
     
     var phoneNumber: String?
@@ -18,15 +18,24 @@ class BrowseTableViewController: UITableViewController {
     
     var arrayOfRegisterInfo = [[String: AnyObject]]()
     
-     var arrayOfPostData = [[String: AnyObject]]()
+    var arrayOfPostData = [[String: AnyObject]]()
     
-       var tabBarImageView: UIImageView?
+    var userLocation: CLLocation?
+    var tabBarImageView: UIImageView?
+    
+    var gender: String?
+    var seekingGender: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
-   
+        
+        GlobalVariableSharedInstance.delegate = self
+        
+        GlobalVariableSharedInstance.startUpdatingLocation()
+        
+         self.loadCurrentUserAndThenLoadUsers()
         
         tabBarImageView = UIImageView(frame: CGRect(x: -80, y: 0, width: 300, height: 40))
         
@@ -42,56 +51,57 @@ class BrowseTableViewController: UITableViewController {
         navigationItem.titleView = tabBarImageView
         
         
-      //  tableView.separatorColor = UIColor.blueColor()
+        //  tableView.separatorColor = UIColor.blueColor()
         
         tableView.layoutMargins = UIEdgeInsetsZero
         
         tableView.separatorInset = UIEdgeInsetsZero
-
+        
         let gradientView = GradientView(frame: CGRectMake(view.bounds.origin.x, view.bounds.origin.y, view.bounds.size.width, view.bounds.size.height))
         
         // Set the gradient colors
         
-    
         
         
-
+        
+        
         gradientView.colors = [UIColor.blackColor(), UIColor.darkGrayColor()]
         
         // Optionally set some locations
-     //   gradientView.locations = [0.0, 1.0]
+        //   gradientView.locations = [0.0, 1.0]
         
         // Optionally change the direction. The default is vertical.
         gradientView.direction = .Vertical
         
         
-
-//        
-//        gradientView.topBorderColor = UIColor.blueColor()
-//        gradientView.bottomBorderColor = UIColor.blueColor()
-//
-//        
-   
-        tableView.backgroundView = gradientView
-    
-             self.loadCurrentUserAndThenLoadUsers()
         
-// self.tableView.hidden = true
+        //
+        //        gradientView.topBorderColor = UIColor.blueColor()
+        //        gradientView.bottomBorderColor = UIColor.blueColor()
+        //
+        //
+        
+        tableView.backgroundView = gradientView
+        
+        
+        
+        // self.tableView.hidden = true
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-   
+        
     }
     
     
     override func viewWillAppear(animated: Bool) {
- 
+        
+        
         tabBarImageView!.hidden = true
-      //  self.tableView.hidden = true
+        //  self.tableView.hidden = true
         
         self.tableView.backgroundColor = UIColor.blackColor()
         
@@ -111,7 +121,7 @@ class BrowseTableViewController: UITableViewController {
     override func viewDidAppear(animated: Bool) {
         
         
-       //  self.tableView.hidden = false
+        //  self.tableView.hidden = false
         self.tableView.backgroundColor = UIColor.blackColor()
         
         
@@ -124,15 +134,15 @@ class BrowseTableViewController: UITableViewController {
         let backButton = UIBarButtonItem()
         let backButtonImage = UIImage(named: "backbutton")
         backButton.setBackButtonBackgroundImage(backButtonImage, forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
-     
+        
         self.navigationController?.navigationItem.backBarButtonItem = backButton
         
         tabBarImageView!.hidden = false
         springScaleFrom(tabBarImageView!, x: 0, y: -100, scaleX: 0.5, scaleY: 0.5)
         
-            // addBlurEffect()
+        // addBlurEffect()
         
-        self.tableView.reloadData()
+        
         
     }
     
@@ -158,18 +168,23 @@ class BrowseTableViewController: UITableViewController {
                     
                     
                     
-                // if we created a postData, the user has a wingmanGender in parse that user is seeking
+                    // if we created a postData, the user has a wingmanGender in parse that user is seeking
                     if let seekingGender = user["wingmanGender"] as! String? {
                         
                         if let gender = user["gender"] as! String? {
-                            self.loadUsers(seekingGender, ourGender: gender)
+                            
+                            self.gender = gender
+                            self.seekingGender = seekingGender
+                            
+                            self.loadUsers(self.seekingGender, ourGender: self.gender)
                         }
-                       
-                    }
-                    
                         
-                        // otherwise (if we dont have a postData dict), load all users (no arguments in the function)
-                    
+                    }
+                        
+                        
+                        
+                        
+                        
                     else {
                         
                         self.loadUsers(nil, ourGender: nil)
@@ -185,31 +200,42 @@ class BrowseTableViewController: UITableViewController {
     
     func loadUsers(seekingGender: String?, ourGender: String?) {
         
-//        var query = PFQuery(className:"_User")
-         let query = PFUser.query()
         
-         query.whereKeyExists("postData")
-    
-         query.whereKey("objectId", notEqualTo: PFUser.currentUser().objectId)
+        
+        
+        //        var query = PFQuery(className:"_User")
+        let query = PFUser.query()
+        
+        
+        query.whereKeyExists("postData")
+        
+        query.whereKey("objectId", notEqualTo: PFUser.currentUser().objectId)
+        
+        if (self.userLocation != nil) {
+            query.whereKey("location", nearGeoPoint: PFGeoPoint(location: userLocation), withinMiles: 1000)
+        }
+        
         
         // if we have a seekingGender, then load only users whose gender is our seekingGender, else return all users that are not current user (never go into that loop)
         if let seekingGender = seekingGender as String? {
-           
+            
             if let ourGender = ourGender as String? {
                 query.whereKey("gender", equalTo: seekingGender)
                 
                 query.whereKey("wingmanGender", equalTo: ourGender)
-
+                
             }
-           
+            
         }
-
+        
         
         query.findObjectsInBackgroundWithBlock() {
             (objects:[AnyObject]!, error:NSError!)->Void in
             if ((error) == nil) {
-
-            
+                
+                
+                self.arrayOfPostData.removeAll()
+                self.arrayOfRegisterInfo.removeAll()
                 for user in objects {
                     
                     if let registerInfo = user["registerInfo"] as? [String: AnyObject] {
@@ -221,7 +247,7 @@ class BrowseTableViewController: UITableViewController {
                     if let postData = user["postData"] as? [String: AnyObject] {
                         self.arrayOfPostData.append(postData)
                         
-                    
+                        
                     }
                 }
                 
@@ -231,52 +257,52 @@ class BrowseTableViewController: UITableViewController {
         }
         
     }
- 
-  
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         return 1
     }
-
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         return self.arrayOfRegisterInfo.count
     }
-
     
- 
+    
+    
     
     override func tableView(tableView: UITableView,
         willDisplayCell cell: UITableViewCell,
         forRowAtIndexPath indexPath: NSIndexPath)
     {
         cell.separatorInset = UIEdgeInsetsZero
-         cell.layoutMargins = UIEdgeInsetsZero
+        cell.layoutMargins = UIEdgeInsetsZero
         cell.preservesSuperviewLayoutMargins = false
-       
+        
     }
-  
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-       
+        
         
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! BrowseTableViewCell
-
+        
         cell.selectionStyle = .None
         
         cell.contentView.backgroundColor = UIColor.clearColor()
         cell.backgroundColor = UIColor.clearColor()
-
-
+        
+        
         var registerInfo = self.arrayOfRegisterInfo[indexPath.row]
         
         
@@ -285,31 +311,27 @@ class BrowseTableViewController: UITableViewController {
                 (imageData: NSData!, error: NSError!) in
                 if (error == nil) {
                     
-                    print("HELLO")
+                    
                     let image : UIImage = UIImage(data:imageData)!
                     //image object implementation
                     
                     cell.userImage.image = image
                 }
-                
-              
+                    
+                    
                 else {
                     print(error.description)
                 }
             })
-
+            
         }
         
-      
+        
         if let username = registerInfo["username"] as? String {
             cell.usernameLabel.text = username
         }
-        if let gender = registerInfo["gender"] as? String {
-            
-            cell.genderLabel.text = "Gender: \(gender)"
-            
-        }
         
+  
         
         var postData = self.arrayOfPostData[indexPath.row]
         
@@ -320,12 +342,12 @@ class BrowseTableViewController: UITableViewController {
             
         }
         
-//        if let seeking = postData["wingmanGender"] as? String {
-//            
-//            cell.seekingLabel.text = "Seeking: \(seeking)"
-//            
-//        }
-    
+        //        if let seeking = postData["wingmanGender"] as? String {
+        //
+        //            cell.seekingLabel.text = "Seeking: \(seeking)"
+        //
+        //        }
+        
         
         if let startTimeInt = postData["startTime"] as? Int {
             
@@ -339,16 +361,41 @@ class BrowseTableViewController: UITableViewController {
             
         }
         
-      
+        
+        if let userLocation = self.userLocation {
+            
+            if let venueLocation =  postData["location"] as? PFGeoPoint  {
+                
+                if let venueLocation = CLLocation(latitude: venueLocation.latitude, longitude: venueLocation.longitude) as CLLocation? {
+                    
+                    //convert meters into miles
+                    let dist1 = venueLocation.distanceFromLocation(userLocation) * 0.00062137
+                    
+                    //rounding to nearest hundredth
+                    let dist2 = Double(round(100 * dist1) / 100)
+                    
+                    
+                    cell.distanceLabel.text = "\(dist2) mi from you"
+                    
+                    print("THE DISTANCE: \(dist2)", terminator: "")
+                }
+            }
+            
+            
+        }
+        
+        
+        
+        
         return cell
         
     }
     
-
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//       let cell: BrowseTableViewCell = tableView.cellForRowAtIndexPath(indexPath) as BrowseTableViewCell
-
-     //didn't connect segue in storyboard so doing it programmatically here
+        //       let cell: BrowseTableViewCell = tableView.cellForRowAtIndexPath(indexPath) as BrowseTableViewCell
+        
+        //didn't connect segue in storyboard so doing it programmatically here
         let storyboard = UIStoryboard(name: "Main", bundle: nil);
         let vc = storyboard.instantiateViewControllerWithIdentifier("browseDetailVC") as! BrowseDetailViewController
         
@@ -364,33 +411,42 @@ class BrowseTableViewController: UITableViewController {
             
             
             
-//            self.phoneNumber = phoneNumber
+            //            self.phoneNumber = phoneNumber
             vc.phoneNumber = phoneNumber
             self.navigationController?.pushViewController(vc, animated: true)
             
         }
         
         
-       
+        
         
         
     }
-
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        
-//        if segue.identifier == "phoneSegue" {
-//            
-//            
-//            
-//            let vc = segue.destinationViewController as TextMessageViewController
-//            
-//            println(phoneNumber)
-//            vc.phoneNumber = self.phoneNumber
-//            
-//        }
-//    
-//    }
+    
+    func didReceiveUserLocation(location: CLLocation) {
+        
+        print("Received user location")
+        userLocation = location
+        
+        //
+        self.loadCurrentUserAndThenLoadUsers()
+    }
+    
+    //    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    //
+    //        if segue.identifier == "phoneSegue" {
+    //
+    //
+    //
+    //            let vc = segue.destinationViewController as TextMessageViewController
+    //            
+    //            println(phoneNumber)
+    //            vc.phoneNumber = self.phoneNumber
+    //            
+    //        }
+    //    
+    //    }
     
     
-   
-   }
+    
+}

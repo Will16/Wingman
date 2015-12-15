@@ -58,6 +58,7 @@
 		BD53079D1AA9580400D8DBBB /* BrowseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD53079C1AA9580400D8DBBB /* BrowseTableViewCell.swift */; };
 		BD53079F1AA9702200D8DBBB /* defaultimage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD53079E1AA9702200D8DBBB /* defaultimage.jpg */; };
 		BD5307A21AAA2A7900D8DBBB /* BrowseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5307A11AAA2A7900D8DBBB /* BrowseDetailViewController.swift */; };
+		BD802BD11C1F8EA500FC0A41 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD802BD01C1F8EA500FC0A41 /* LocationManager.swift */; };
 		BD84EB301ADB3CDB00741CE5 /* bar.png in Resources */ = {isa = PBXBuildFile; fileRef = BD84EB2F1ADB3CDB00741CE5 /* bar.png */; };
 /* End PBXBuildFile section */
 
@@ -128,6 +129,7 @@
 		BD53079C1AA9580400D8DBBB /* BrowseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BrowseTableViewCell.swift; path = Wingman/BrowseTableViewCell.swift; sourceTree = "<group>"; };
 		BD53079E1AA9702200D8DBBB /* defaultimage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = defaultimage.jpg; path = Wingman/defaultimage.jpg; sourceTree = "<group>"; };
 		BD5307A11AAA2A7900D8DBBB /* BrowseDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BrowseDetailViewController.swift; path = Wingman/BrowseDetailViewController.swift; sourceTree = "<group>"; };
+		BD802BD01C1F8EA500FC0A41 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		BD84EB2F1ADB3CDB00741CE5 /* bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -290,8 +292,9 @@
 		BD1A3EF21ADED53000C9E96E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				293044ED1AAF619400A793FC /* ClubOrBarVenues.swift */,
 				293044EB1AAF569600A793FC /* FourSquareAPI.swift */,
+				293044ED1AAF619400A793FC /* ClubOrBarVenues.swift */,
+				BD802BD01C1F8EA500FC0A41 /* LocationManager.swift */,
 			);
 			name = Model;
 			path = ..;
@@ -441,6 +444,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				29775DCB1AA4FD6E00A56925 /* RegisterViewController.swift in Sources */,
+				BD802BD11C1F8EA500FC0A41 /* LocationManager.swift in Sources */,
 				29775D391AA3D45800A56925 /* LoginViewController.swift in Sources */,
 				29775D371AA3D45800A56925 /* AppDelegate.swift in Sources */,
 				BD080DC81AC0ABBF009FC1F0 /* DesignableView.swift in Sources */,
