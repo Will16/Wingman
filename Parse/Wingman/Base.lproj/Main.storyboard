@@ -94,7 +94,7 @@
                                 <rect key="frame" x="224.5" y="419" width="151" height="28"/>
                                 <fontDescription key="fontDescription" name="Miso" family="Miso" pointSize="18"/>
                                 <state key="normal" title="No account yet? Click here">
-                                    <color key="titleColor" red="0.58039215690000001" green="0.76078431369999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="1" green="0.90560661860000002" blue="0.69120408170000003" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -114,7 +114,7 @@
                                 <rect key="frame" x="276.5" y="349" width="48" height="37"/>
                                 <fontDescription key="fontDescription" name="Miso" family="Miso" pointSize="28"/>
                                 <state key="normal" title="Login">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" red="0.58039215690000001" green="0.76078431369999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -211,7 +211,7 @@
                                 <rect key="frame" x="13" y="523" width="574" height="69"/>
                                 <fontDescription key="fontDescription" name="Miso" family="Miso" pointSize="53"/>
                                 <state key="normal" title="Sign Up">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" red="0.58039215690000001" green="0.76078431369999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -242,7 +242,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="Miso" family="Miso" pointSize="28"/>
                                 <state key="normal" title="Pick Profile Pic">
-                                    <color key="titleColor" red="0.58039215686274515" green="0.76078431372549016" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="1" green="0.90560661860000002" blue="0.69120408170000003" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="disabled">
@@ -827,11 +827,11 @@
                             <view contentMode="scaleToFill" verticalCompressionResistancePriority="740" translatesAutoresizingMaskIntoConstraints="NO" id="5Fg-YM-i2p">
                                 <rect key="frame" x="0.0" y="375" width="600" height="240"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TcM-5u-e7U">
-                                        <rect key="frame" x="252" y="72" width="96" height="71"/>
-                                        <fontDescription key="fontDescription" name="Miso" family="Miso" pointSize="68"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TcM-5u-e7U">
+                                        <rect key="frame" x="8" y="72" width="584" height="71"/>
+                                        <fontDescription key="fontDescription" name="Miso" family="Miso" pointSize="81"/>
                                         <state key="normal" title="Post">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleColor" red="1" green="0.4028265103" blue="0.3833430538" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -842,7 +842,9 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="TcM-5u-e7U" firstAttribute="centerY" secondItem="5Fg-YM-i2p" secondAttribute="centerY" multiplier="0.9" id="BzT-3z-zmr"/>
+                                    <constraint firstItem="TcM-5u-e7U" firstAttribute="leading" secondItem="5Fg-YM-i2p" secondAttribute="leading" constant="8" id="KMb-L1-JOR"/>
                                     <constraint firstItem="TcM-5u-e7U" firstAttribute="centerX" secondItem="5Fg-YM-i2p" secondAttribute="centerX" id="xkd-Yo-i8T"/>
+                                    <constraint firstAttribute="trailing" secondItem="TcM-5u-e7U" secondAttribute="trailing" constant="8" id="yJl-fU-WcK"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="740" text="I'd like my Wingman to be " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nct-HV-NOg">
