@@ -67,7 +67,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="bg" translatesAutoresizingMaskIntoConstraints="NO" id="94N-rc-QWY">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="Vnk-PD-dYs">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="Vnk-PD-dYs">
                                 <rect key="frame" x="250" y="140" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="62e-S0-VQh"/>
@@ -217,7 +217,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="D8C-CC-t1T">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="AppIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="D8C-CC-t1T">
                                 <rect key="frame" x="245" y="424" width="110" height="110"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="D8C-CC-t1T" secondAttribute="height" multiplier="1:1" id="4z3-P9-j2f"/>
@@ -878,7 +878,6 @@
         <!--Post View Controller-->
         <scene sceneID="Nkh-bw-BTQ">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="OC4-hI-j1U" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="postVC" id="gdR-Hc-qHQ" customClass="PostViewController" customModule="Wingman" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sEp-gK-hsf"/>
@@ -1000,7 +999,7 @@
                                     <segue destination="BUD-rE-mq0" kind="presentation" identifier="postToPicker" id="vT2-zC-pby"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I want to get out at these hours:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9w7-VZ-xHA">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I want to go out at these hours:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9w7-VZ-xHA">
                                 <rect key="frame" x="0.0" y="181" width="600" height="19"/>
                                 <fontDescription key="fontDescription" name="Miso" family="Miso" pointSize="22"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -1070,6 +1069,7 @@
                         <segue destination="7ft-bf-VnM" kind="show" identifier="BrowserSegue" id="VaE-Oy-S6D"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OC4-hI-j1U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3858" y="933"/>
         </scene>
@@ -1117,7 +1117,7 @@
                                     <action selector="backButton:" destination="BUD-rE-mq0" eventType="touchUpInside" id="y3v-PY-6oo"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="KHi-ir-fMN">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="AppIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="KHi-ir-fMN">
                                 <rect key="frame" x="250" y="408" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="6BY-7U-XcR"/>
@@ -1182,8 +1182,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="AppIcon.png" width="1024" height="1024"/>
         <image name="Club.jpg" width="3216" height="2136"/>
-        <image name="Icon.png" width="1024" height="1024"/>
         <image name="backbutton.png" width="41" height="41"/>
         <image name="bg" width="640" height="1136"/>
         <image name="defaultimage.jpg" width="1000" height="1000"/>

@@ -34,7 +34,7 @@
 		29775DCF1AA639DB00A56925 /* BrowseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29775DCE1AA639DB00A56925 /* BrowseTableViewController.swift */; };
 		29775E331AA7F27F00A56925 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29775E321AA7F27F00A56925 /* PostViewController.swift */; };
 		2980CDAB1AC063E1005A4A7D /* TipoType - Libertad.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2980CDA91AC063E1005A4A7D /* TipoType - Libertad.otf */; };
-		2980CDAD1AC06818005A4A7D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2980CDAC1AC06818005A4A7D /* Icon.png */; };
+		2980CDAD1AC06818005A4A7D /* AppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2980CDAC1AC06818005A4A7D /* AppIcon.png */; };
 		29A075981ABB711E00204989 /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A075971ABB711E00204989 /* PickerViewController.swift */; };
 		29E637801AC059BB009B5241 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29E6377F1AC059BB009B5241 /* Images.xcassets */; };
 		BD080DC61AC0ABBF009FC1F0 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD080DC11AC0ABBF009FC1F0 /* BlurView.swift */; };
@@ -105,7 +105,7 @@
 		29775DCE1AA639DB00A56925 /* BrowseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BrowseTableViewController.swift; path = Wingman/BrowseTableViewController.swift; sourceTree = "<group>"; };
 		29775E321AA7F27F00A56925 /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostViewController.swift; path = Wingman/PostViewController.swift; sourceTree = "<group>"; };
 		2980CDA91AC063E1005A4A7D /* TipoType - Libertad.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TipoType - Libertad.otf"; sourceTree = "<group>"; };
-		2980CDAC1AC06818005A4A7D /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		2980CDAC1AC06818005A4A7D /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon.png; sourceTree = "<group>"; };
 		29A075971ABB711E00204989 /* PickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
 		29E6377F1AC059BB009B5241 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		BD080DC11AC0ABBF009FC1F0 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
@@ -317,7 +317,7 @@
 				BD080DD41AC1D229009FC1F0 /* backbutton@2x.png */,
 				BD53079E1AA9702200D8DBBB /* defaultimage.jpg */,
 				BD080DD11AC1AD6E009FC1F0 /* Club.jpg */,
-				2980CDAC1AC06818005A4A7D /* Icon.png */,
+				2980CDAC1AC06818005A4A7D /* AppIcon.png */,
 				29E6377F1AC059BB009B5241 /* Images.xcassets */,
 			);
 			name = Images;
@@ -422,7 +422,7 @@
 				BD080DD21AC1AD6E009FC1F0 /* Club.jpg in Resources */,
 				BD080DEC1AC23BB5009FC1F0 /* wine-glass-silhouette-black-and-white-md.png in Resources */,
 				BD080DD51AC1D229009FC1F0 /* backbutton.png in Resources */,
-				2980CDAD1AC06818005A4A7D /* Icon.png in Resources */,
+				2980CDAD1AC06818005A4A7D /* AppIcon.png in Resources */,
 				BD53079F1AA9702200D8DBBB /* defaultimage.jpg in Resources */,
 				BD080DEB1AC23BB5009FC1F0 /* empty-wine-glass-md.png in Resources */,
 				BD080DDA1AC1FE33009FC1F0 /* pushpin.png in Resources */,

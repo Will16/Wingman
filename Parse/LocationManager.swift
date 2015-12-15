@@ -95,12 +95,17 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
      
                 // the last location is the good one?
                 let newLocation:CLLocation = locations[0]
-              
+                
+//                   let newLocation = CLLocation(latitude: 33.74900, longitude: -84.38798)
+//
                 delegate?.didReceiveUserLocation(newLocation)
+     
+                
+      
                 
             } else {
                 
-                let newLocation = CLLocation(latitude: 51.368123, longitude: -0.021973)
+                let newLocation = CLLocation(latitude: 33.74900, longitude: -84.38798)
                 
                 delegate?.didReceiveUserLocation(newLocation)
                 
@@ -108,7 +113,7 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
         }
        
         else {
-            let newLocation = CLLocation(latitude: 51.368123, longitude: -0.021973)
+            let newLocation = CLLocation(latitude: 33.74900, longitude: -84.38798)
             
             delegate?.didReceiveUserLocation(newLocation)
         }
