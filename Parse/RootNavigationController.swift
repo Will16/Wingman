@@ -34,10 +34,13 @@ class RootNavigationController: UINavigationController {
         ////////
         //////// CUSTOMIZE NAVBAR
         ////////
+        
+        
         self.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
         //        self.navigationBar.shadowImage = UIImage()
-        self.navigationBar.backgroundColor = UIColor.clearColor()
+        self.navigationBar.backgroundColor = UIColor.blackColor()
         self.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationBar.translucent = false
         
         ////////
         //////// CUSTOMIZE TOOLBAR - ?? do I have 2 toolbars on top of each other with this method?
@@ -99,7 +102,7 @@ class RootNavigationController: UINavigationController {
     
 
     
-    
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

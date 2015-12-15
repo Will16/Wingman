@@ -831,7 +831,7 @@
                                         <rect key="frame" x="8" y="72" width="584" height="71"/>
                                         <fontDescription key="fontDescription" name="Miso" family="Miso" pointSize="81"/>
                                         <state key="normal" title="Post">
-                                            <color key="titleColor" red="1" green="0.4028265103" blue="0.3833430538" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="1" green="0.90560661860000002" blue="0.69120408170000003" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
